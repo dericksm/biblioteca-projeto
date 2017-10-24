@@ -5,10 +5,15 @@
  */
 package projetomdi.Listener;
 
+import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import projetomdi.Exceptions.EmprestimoExceptions;
 import projetomdi.Frames.CadastroLivros;
 import projetomdi.Frames.EmprestimoLivro;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -32,7 +37,11 @@ public class EmprestimoLivroListener implements ActionListener {
         } else if ("limpar".equals(e.getActionCommand())) {
             emprestimoLivro.limpar();
         } else if ("concluir".equals(e.getActionCommand())) {
-            emprestimoLivro.concluir();
+            try {
+                emprestimoLivro.concluir();
+            } catch (EmprestimoExceptions ex) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
+            }
         }
     }
     

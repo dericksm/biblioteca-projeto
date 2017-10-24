@@ -5,7 +5,8 @@
  */
 package projetomdi.Frames;
 
-import Modules.login.loginView;
+import Modules.login.LoginView;
+import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -17,7 +18,9 @@ import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroEmprestimo;
+import projetomdi.Exceptions.EmprestimoExceptions;
 import projetomdi.Listener.EmprestimoLivroListener;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -43,13 +46,14 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         }
     }
 
-    public void concluir() {
+    public void concluir() throws EmprestimoExceptions {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
+            ValidaVazio();
             emprestimo.setCliente(menuClientes.getSelectedItem().toString());
             emprestimo.setDataDevolucao(fdDevolucao.getText());
-            //emprestimo.setDataSaque(); vai ser incrementado quando estiver com o banco
+            //emprestimo.setDataSaque(); vai ser implementado quando estiver com o banco
             emprestimo.setLivro(menuLivro.getSelectedItem().toString());
             emprestimo.setObservacoes(fdObservacoes.getText());
             emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
@@ -61,6 +65,22 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         if (resposta == JOptionPane.YES_OPTION) {
             dispose();
         }
+    }
+    
+    private void ValidaVazio() throws EmprestimoExceptions {
+        if (fdDevolucao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Devolucão");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Devolucão vazio");
+            throw new EmprestimoExceptions("Campo Devolucão Vazio");
+            
+        }
+        if (fdEmprestimo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Emprestimo");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Emprestimo vazio");
+            throw new EmprestimoExceptions("Campo Emprestimo Vazio");
+            
+        }       
+        
     }
 
     @SuppressWarnings("unchecked")

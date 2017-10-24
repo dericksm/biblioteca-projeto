@@ -28,6 +28,8 @@ public class LogFiles implements Serializable{
         }
         return setFileContentAsText(file, text);
     }
+    
+    
 
     public static boolean setFileContentAsText(File file, String text ) {
         try {

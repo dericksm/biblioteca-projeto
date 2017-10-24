@@ -5,6 +5,7 @@
  */
 package projetomdi.LogFile;
 
+import static config.config.LOG_FILENAME;
 import static config.config.USER_FILE;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -35,11 +37,16 @@ public class UserFile {
     }
     
     public void salvarUsuario(String conta) throws IOException {
-        FileWriter fw = new FileWriter(USER_FILE, false);
+        
+                   
+            FileWriter fw = new FileWriter(USER_FILE, false);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(conta);
             bw.close();
             fw.close();
+       
+
+            
     }
        
 }

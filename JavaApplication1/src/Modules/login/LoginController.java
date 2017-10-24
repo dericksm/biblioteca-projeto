@@ -5,6 +5,7 @@
  */
 package Modules.login;
 
+import projetomdi.Exceptions.LoginException;
 import config.config;
 import static config.config.LOG_FILE;
 import java.io.Serializable;

@@ -5,7 +5,8 @@
  */
 package projetomdi.Frames;
 
-import Modules.login.loginView;
+import Modules.login.LoginView;
+import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -17,7 +18,9 @@ import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroLivro;
+import projetomdi.Exceptions.CadastroLivrosExceptions;
 import projetomdi.Listener.CadastroLivroListener;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -40,25 +43,54 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         }
     }
 
-    public void salvar() {
+    public void salvar() throws CadastroLivrosExceptions {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             
-            novoLivro.setAno(Integer.parseInt(fdAno.getText()));
+            try {
+                ValidaVazio();
+            } catch (Exception e) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+                
+            }
+            try {
+                novoLivro.setAno(Integer.parseInt(fdAno.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Ano com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+
+            try {
+                novoLivro.setQuantidade(Integer.parseInt(fdQuantidade.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Quantidade com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+            try {
+                novoLivro.setCodigoLivro(Integer.parseInt(fdCodigoLivro.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Codigo com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+            try {
+                novoLivro.setnPaginas(Integer.parseInt(fdPaginas.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Páginas com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+
             novoLivro.setAutor(fdAutor.getText());
-            novoLivro.setCodigoLivro(Integer.parseInt(fdCodigoLivro.getText()));
             novoLivro.setEditora(fdEditora.getText());
             novoLivro.setGenero(fdGenero.getText());
             novoLivro.setNome(fdNome.getText());
-            novoLivro.setQuantidade(Integer.parseInt(fdQuantidade.getText()));
-            novoLivro.setnPaginas(Integer.parseInt(fdPaginas.getText()));
             novoLivro.imprimir();
         }
 
     }
 
-    public void limpar() {
+    public void limpar()
+    {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?", "Confirmação Limpar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             fdAno.setText("");
@@ -72,7 +104,57 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
 
         }
     }
-
+    
+    public void ValidaVazio() throws CadastroLivrosExceptions {
+        if (fdAno.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Ano");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Ano vazio");
+            throw new CadastroLivrosExceptions ("Campo Ano Vazio");
+            
+        }
+        if (fdAutor.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Autor");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Autor vazio");
+            throw new CadastroLivrosExceptions ("Campo Autor Vazio");
+            
+        }
+        if (fdCodigoLivro.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Codigo vazio");
+            throw new CadastroLivrosExceptions ("Campo Codigo Vazio");
+            
+        }
+        if (fdEditora.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Editora");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Editora vazio");
+            throw new CadastroLivrosExceptions ("Campo Editora Vazio");
+            
+        }
+        if (fdGenero.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Gênero");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Gênero vazio");
+            throw new CadastroLivrosExceptions ("Campo Gênero Vazio");
+            
+        }
+        if (fdNome.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Nome");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Nome vazio");
+            throw new CadastroLivrosExceptions ("Campo Nome Vazio");
+            
+        }
+        if (fdPaginas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Paginas");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Paginas vazio");
+            throw new CadastroLivrosExceptions ("Campo Paginas Vazio");
+            
+        }
+        if (fdQuantidade.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Quantidade Paginas");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Quantidade Paginas vazio");
+            throw new CadastroLivrosExceptions ("Campo Quantidade Paginas Vazio");
+            
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

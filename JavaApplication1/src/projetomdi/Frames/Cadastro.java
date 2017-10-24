@@ -446,7 +446,88 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
     }
 
+    private void ValidacaoCadastro() throws CadastroException {
+        if (fdBairro.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Bairro");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Bairro vazio");
+            throw new CadastroException ("Campo Bairro vazio");
+            
+        }
+        if (fdCEP.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CEP");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo CEP vazio");
+            throw new CadastroException("Campo CEP vazio");
 
+        }
+        if (fdCPF.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CPF");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo CPF vazio");
+            throw new CadastroException("Campo CPF vazio");
+
+        }
+        if (fdCelular.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Celular");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Celular vazio");
+            throw new CadastroException("Campo Celular vazio");
+
+        }
+        if (fdCidade.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Cidade");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Cidade vazio");
+            throw new CadastroException("Campo Cidade vazio");
+
+        }
+        if (fdCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Codigo vazio");
+            throw new CadastroException("Campo Codigo vazio");
+
+        }
+        if (fdEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo E-mail");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo E-mail vazio");
+            throw new CadastroException("Campo E-mail vazio");
+
+        }
+        if (fdEndereco.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Endereco");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Endereço vazio");
+            throw new CadastroException("Campo Endereco vazio");
+
+        }
+        if (fdFixo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Telefone Fixo");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Telefone Fixo vazio");
+            throw new CadastroException("Campo Telefone Fixo vazio");
+
+        }
+        if (fdNascimento.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Data Nascimento");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Data Nascimento vazio");
+            throw new CadastroException("Campo Data Nascimento vazio");
+
+        }
+        if (fdNome.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Nome");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Nome vazio");
+            throw new CadastroException("Campo Nome vazio");
+
+        }
+        if (fdNumero.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Numero");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Numero vazio");
+            throw new CadastroException("Campo Numero vazio");
+
+        }
+        if (fdRG.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo RG");
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo RG vazio");
+            throw new CadastroException("Campo RG vazio");
+
+        }
+
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CEP;
     private javax.swing.JLabel CPF;
@@ -489,72 +570,5 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private javax.swing.JLabel referencia;
     // End of variables declaration//GEN-END:variables
 
-    private void ValidacaoCadastro() throws CadastroException {
-        if (fdBairro.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Bairro");
-            throw new CadastroException ("Campo Bairro vazio");
-            
-        }
-        if (fdCEP.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CEP");
-            throw new CadastroException("Campo CEP vazio");
-
-        }
-        if (fdCPF.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CPF");
-            throw new CadastroException("Campo CPF vazio");
-
-        }
-        if (fdCelular.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Celular");
-            throw new CadastroException("Campo Celular vazio");
-
-        }
-        if (fdCidade.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Cidade");
-            throw new CadastroException("Campo Cidade vazio");
-
-        }
-        if (fdCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
-            throw new CadastroException("Campo Codigo vazio");
-
-        }
-        if (fdEmail.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo E-mail");
-            throw new CadastroException("Campo E-mail vazio");
-
-        }
-        if (fdEndereco.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Endereco");
-            throw new CadastroException("Campo Endereco vazio");
-
-        }
-        if (fdFixo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Telefone Fixo");
-            throw new CadastroException("Campo Telefone Fixo vazio");
-
-        }
-        if (fdNascimento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Data Nascimento");
-            throw new CadastroException("Campo Data Nascimento vazio");
-
-        }
-        if (fdNome.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Nome");
-            throw new CadastroException("Campo Nome vazio");
-
-        }
-        if (fdNumero.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Numero");
-            throw new CadastroException("Campo Numero vazio");
-
-        }
-        if (fdRG.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo RG");
-            throw new CadastroException("Campo RG vazio");
-
-        }
-
-    }
+    
 }

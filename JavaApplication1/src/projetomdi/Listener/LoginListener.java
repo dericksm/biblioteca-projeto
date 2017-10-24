@@ -5,9 +5,14 @@
  */
 package projetomdi.Listener;
 
-import Modules.login.loginView;
+import Modules.login.LoginView;
+import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -15,9 +20,9 @@ import java.awt.event.ActionListener;
  */
 public class LoginListener implements ActionListener {
     
-    private loginView login;
+    private LoginView login;
 
-    public LoginListener(loginView login) {
+    public LoginListener(LoginView login) {
         this.login = login;
     }      
     
@@ -25,7 +30,11 @@ public class LoginListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if("login".equals(e.getActionCommand())) {
-            login.login();
+            try {
+                login.login();
+            } catch (IOException ex) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
+            }
         } else if("cancelar".equals(e.getActionCommand())){
             login.cancelar();
         }
