@@ -5,10 +5,15 @@
  */
 package projetomdi.Listener;
 
+import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import projetomdi.Exceptions.CadastroLivrosExceptions;
 import projetomdi.Frames.Cadastro;
 import projetomdi.Frames.CadastroLivros;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -28,7 +33,11 @@ public class CadastroLivroListener implements ActionListener{
         } else if ("sair".equals(e.getActionCommand())) {
             cadLivro.sair();
         } else if ("salvar".equals(e.getActionCommand())) {
-            cadLivro.salvar();
+            try {
+                cadLivro.salvar();
+            } catch (CadastroLivrosExceptions ex) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
+            }
         }
     }
 }
