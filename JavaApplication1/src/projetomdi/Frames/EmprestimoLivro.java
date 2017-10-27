@@ -18,7 +18,8 @@ import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroEmprestimo;
-import projetomdi.Exceptions.EmprestimoExceptions;
+import projetomdi.Exceptions.BibliotecaException;
+
 import projetomdi.Listener.EmprestimoLivroListener;
 import projetomdi.LogFile.LogFiles;
 
@@ -30,9 +31,21 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
 
     CadastroEmprestimo emprestimo = new CadastroEmprestimo();
     EmprestimoLivroListener listener = new EmprestimoLivroListener(this);
+    private String currentUser;
 
-    public EmprestimoLivro() {
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+    
+    
+
+    public EmprestimoLivro(String user) {
         initComponents();
+        setCurrentUser(user);
 
     }
 
@@ -46,17 +59,21 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         }
     }
 
-    public void concluir() throws EmprestimoExceptions {
+    public void concluir() throws BibliotecaException {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             ValidaVazio();
+            /* esse métodos serão implementados quando o BANCO estiver integrado
             emprestimo.setCliente(menuClientes.getSelectedItem().toString());
             emprestimo.setDataDevolucao(fdDevolucao.getText());
-            //emprestimo.setDataSaque(); vai ser implementado quando estiver com o banco
+            emprestimo.setDataSaque(); vai ser implementado quando estiver com o banco
             emprestimo.setLivro(menuLivro.getSelectedItem().toString());
             emprestimo.setObservacoes(fdObservacoes.getText());
             emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
+            */
+            
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Emprestimo");
         }
     }
 
@@ -66,21 +83,19 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             dispose();
         }
     }
-    
-    private void ValidaVazio() throws EmprestimoExceptions {
+
+    private void ValidaVazio() throws BibliotecaException {
         if (fdDevolucao.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Devolucão");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Devolucão vazio");
-            throw new EmprestimoExceptions("Campo Devolucão Vazio");
-            
+            throw new BibliotecaException("Campo Devolucão Vazio");
+
         }
         if (fdEmprestimo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Emprestimo");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Emprestimo vazio");
-            throw new EmprestimoExceptions("Campo Emprestimo Vazio");
-            
-        }       
-        
+            throw new BibliotecaException("Campo Emprestimo Vazio");
+
+        }
+
     }
 
     @SuppressWarnings("unchecked")

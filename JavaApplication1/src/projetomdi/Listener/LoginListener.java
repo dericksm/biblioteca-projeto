@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.LogFile.LogFiles;
 
 /**
@@ -33,7 +34,9 @@ public class LoginListener implements ActionListener {
             try {
                 login.login();
             } catch (IOException ex) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
+                System.out.println(ex.getMessage());
+            } catch (BibliotecaException ex) {
+                Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if("cancelar".equals(e.getActionCommand())){
             login.cancelar();

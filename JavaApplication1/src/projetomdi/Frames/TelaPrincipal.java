@@ -6,6 +6,7 @@
 package projetomdi.Frames;
 
 import Modules.login.LoginView;
+import static config.config.LOG_FILE;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroCliente;
 import projetomdi.Listener.TelaPrincipalListener;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -24,8 +26,18 @@ import projetomdi.Listener.TelaPrincipalListener;
 public class TelaPrincipal extends javax.swing.JFrame {
 
     TelaPrincipalListener listener = new TelaPrincipalListener(this);
+    private String currentUser;
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+    
    
-    public TelaPrincipal() {
+    public TelaPrincipal(String user) {
         initComponents();
         setTitle("Biblioteca Corvo Guaraná");
         ImageIcon img = new ImageIcon("iconeBiblioteca.png");
@@ -42,6 +54,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        setCurrentUser(user);
         SwingUtilities.updateComponentTreeUI(this);
         updateComponentTreeUI(this);
         
@@ -101,22 +115,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
      public void abrirCadastroCliente() {
-        Cadastro cdCliente = new Cadastro();
+        Cadastro cdCliente = new Cadastro(currentUser);
         cdCliente.setVisible(true);
         add(cdCliente);
+        LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " acessou Cadastro");
     }
     
     
     public void abrirEmprestimoLivro() {
-        EmprestimoLivro cdLivro = new EmprestimoLivro();
+        EmprestimoLivro cdLivro = new EmprestimoLivro(currentUser);
         cdLivro.setVisible(true);
         add(cdLivro);
+        LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " acessou Emprestimo Livro");
     }
     
     public void abrirCadastroLivros(){
-        CadastroLivros cdEmprestimo = new CadastroLivros();
+        CadastroLivros cdEmprestimo = new CadastroLivros(currentUser);
         cdEmprestimo.setVisible(true);
         add(cdEmprestimo);
+        LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " acessou Cadastro Livro");
     }
     
     
@@ -151,7 +168,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaPrincipal().setVisible(true);
+                new TelaPrincipal(null).setVisible(true);
             }
         });
     }

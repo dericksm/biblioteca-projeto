@@ -5,13 +5,14 @@
  */
 package projetomdi.Frames;
 
+import Modules.login.LoginView;
 import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import projetomdi.Classes.CadastroCliente;
-import projetomdi.Exceptions.CadastroException;
+import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Listener.CadastroListener;
 import projetomdi.LogFile.LogFiles;
 
@@ -19,9 +20,21 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
     CadastroCliente cliente = new CadastroCliente();
     CadastroListener listener = new CadastroListener(this);
+    private String currentUser;
 
-    public Cadastro() {
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+    
+    
+
+    public Cadastro(String user) {
         initComponents();
+        setCurrentUser(user);
 
     }
 
@@ -30,35 +43,25 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         codigo = new javax.swing.JLabel();
-        fdCodigo = new javax.swing.JTextField();
-        rbFisica = new javax.swing.JRadioButton();
-        rbJuridica = new javax.swing.JRadioButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         fdNome = new javax.swing.JTextField();
         fdEndereco = new javax.swing.JTextField();
         endereco = new javax.swing.JLabel();
         numero = new javax.swing.JLabel();
-        fdNumero = new javax.swing.JTextField();
         fdBairro = new javax.swing.JTextField();
         bairro = new javax.swing.JLabel();
         fdReferencia = new javax.swing.JTextField();
         referencia = new javax.swing.JLabel();
         cidade = new javax.swing.JLabel();
         fdCidade = new javax.swing.JTextField();
-        fdCEP = new javax.swing.JTextField();
         CEP = new javax.swing.JLabel();
         UF = new javax.swing.JLabel();
         boxEstado = new javax.swing.JComboBox<>();
         fixo = new javax.swing.JLabel();
-        fdFixo = new javax.swing.JTextField();
         fixo1 = new javax.swing.JLabel();
-        fdCelular = new javax.swing.JTextField();
         email = new javax.swing.JLabel();
         fdEmail = new javax.swing.JTextField();
         RG = new javax.swing.JLabel();
-        fdRG = new javax.swing.JTextField();
-        fdCPF = new javax.swing.JTextField();
         CPF = new javax.swing.JLabel();
         fdNascimento = new javax.swing.JTextField();
         try{  
@@ -74,31 +77,19 @@ public class Cadastro extends javax.swing.JInternalFrame {
         btnLimpar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
+        fdCodigo = new javax.swing.JFormattedTextField();
+        fdNumero = new javax.swing.JFormattedTextField();
+        fdCEP = new javax.swing.JFormattedTextField();
+        fdFixo = new javax.swing.JFormattedTextField();
+        fdCelular = new javax.swing.JFormattedTextField();
+        fdCPF = new javax.swing.JFormattedTextField();
+        fdRG = new javax.swing.JFormattedTextField();
 
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         codigo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigo.setText("Código");
-
-        fdCodigo.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
-        rbFisica.setText("Física");
-        rbFisica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbFisicaActionPerformed(evt);
-            }
-        });
-
-        rbJuridica.setText("Jurídica");
-        rbJuridica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbJuridicaActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Pessoa");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Nome");
@@ -167,6 +158,48 @@ public class Cadastro extends javax.swing.JInternalFrame {
         btnSair.setActionCommand("sair");
         btnSair.setText("Sair");
 
+        try {
+            fdCodigo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdFixo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fdRG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#.###.###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -182,14 +215,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
                                 .addComponent(fdNome))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(codigo)
-                                .addGap(18, 18, 18)
-                                .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbFisica)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbJuridica)
+                                .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -200,20 +227,20 @@ public class Cadastro extends javax.swing.JInternalFrame {
                                 .addComponent(fdEndereco))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(RG)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fdRG, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fdRG, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CPF)
-                                .addGap(18, 18, 18)
-                                .addComponent(fdCPF, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                                .addGap(38, 38, 38)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fdCPF)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(nascimento)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(fdNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(numero)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(bairro)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -221,7 +248,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(referencia)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fdReferencia))
+                                .addComponent(fdReferencia, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(cidade)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -229,8 +256,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(CEP)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(fdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(UF)
                                 .addGap(18, 18, 18)
                                 .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -270,10 +297,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigo)
-                    .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbFisica)
-                    .addComponent(rbJuridica)
-                    .addComponent(jLabel2))
+                    .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -285,24 +309,24 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numero)
-                    .addComponent(fdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bairro)
                     .addComponent(fdBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(referencia)
-                    .addComponent(fdReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fdReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fdNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cidade)
                     .addComponent(fdCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CEP)
-                    .addComponent(fdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UF)
-                    .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(boxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fdCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fixo)
-                    .addComponent(fdFixo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fixo1)
+                    .addComponent(fdFixo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fdCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,11 +335,11 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RG)
-                    .addComponent(fdRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CPF)
-                    .addComponent(fdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nascimento)
-                    .addComponent(fdNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fdNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fdCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fdRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fdObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,26 +350,13 @@ public class Cadastro extends javax.swing.JInternalFrame {
                     .addComponent(btnLimpar)
                     .addComponent(btnCancelar)
                     .addComponent(btnSair))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void rbFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFisicaActionPerformed
-        rbJuridica.setSelected(false);
-        RG.setText("CNPJ");
-        CPF.setText("CPF");
-
-    }//GEN-LAST:event_rbFisicaActionPerformed
-
-    private void rbJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbJuridicaActionPerformed
-        rbFisica.setSelected(false);
-        RG.setText("RG");
-        CPF.setText("CPF");
-    }//GEN-LAST:event_rbJuridicaActionPerformed
-    public void salvar() throws CadastroException {
+    public void salvar() throws BibliotecaException {
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
 
@@ -353,50 +364,15 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
             try {
                 cliente.setCodigo(Integer.parseInt(fdCodigo.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Codigo com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-
-            try {
                 cliente.setNumero(Integer.parseInt(fdNumero.getText()));
+                cliente.setCep(Integer.parseInt(fdFixo.getText().replaceAll("[.-]", "")));
+                cliente.setCpf(Integer.parseInt(fdCPF.getText().replaceAll("[.-]", "")));
+                cliente.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
+                cliente.setCel(Integer.parseInt(fdCelular.getText().replaceAll("[()-]", "")));
+                cliente.setTelFixo(Integer.parseInt(fdFixo.getText().replaceAll("[()-]", "")));
+                
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Numero com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-
-            try {
-                cliente.setCep(Integer.parseInt(fdCEP.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo CEP com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-
-            try {
-                cliente.setRg(Integer.parseInt(fdRG.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo RG com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-
-            try {
-                cliente.setCpf(Integer.parseInt(fdCPF.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo CPF com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-
-            try {
-                cliente.setTelFixo(Integer.parseInt(fdFixo.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Telefone Fixo com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
-            }
-            try {
-                cliente.setCel(Integer.parseInt(fdCelular.getText()));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Celular com números");
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
             }
 
             cliente.setNome(fdNome.getText());
@@ -407,7 +383,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
             cliente.setObs(fdObservacoes.getText());
             cliente.setUf(UF.getText());
             cliente.imprimir();
-
+            
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Usuario");
         }
 
     }
@@ -422,13 +399,12 @@ public class Cadastro extends javax.swing.JInternalFrame {
             fdBairro.setText("");
             fdReferencia.setText("");
             fdCidade.setText("");
-            fdCEP.setText("");
+            fdFixo.setText("");
             fdEmail.setText("");
             fdRG.setText("");
             fdCPF.setText("");
             fdObservacoes.setText("");
-            rbFisica.setSelected(false);
-            rbJuridica.setSelected(false);
+            
         }
     }
 
@@ -446,88 +422,75 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
     }
 
-    private void ValidacaoCadastro() throws CadastroException {
+    private void ValidacaoCadastro() throws BibliotecaException {
         if (fdBairro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Bairro");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Bairro vazio");
-            throw new CadastroException ("Campo Bairro vazio");
-            
+            throw new BibliotecaException("Campo Bairro vazio");
+
         }
-        if (fdCEP.getText().isEmpty()) {
+        if (fdFixo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CEP");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo CEP vazio");
-            throw new CadastroException("Campo CEP vazio");
+            throw new BibliotecaException("Campo CEP vazio");
 
         }
         if (fdCPF.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo CPF");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo CPF vazio");
-            throw new CadastroException("Campo CPF vazio");
+            throw new BibliotecaException("Campo CPF vazio");
 
         }
         if (fdCelular.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Celular");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Celular vazio");
-            throw new CadastroException("Campo Celular vazio");
+            throw new BibliotecaException("Campo Celular vazio");
 
         }
         if (fdCidade.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Cidade");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Cidade vazio");
-            throw new CadastroException("Campo Cidade vazio");
+            throw new BibliotecaException("Campo Cidade vazio");
 
         }
         if (fdCodigo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Codigo vazio");
-            throw new CadastroException("Campo Codigo vazio");
+            throw new BibliotecaException("Campo Codigo vazio");
 
         }
         if (fdEmail.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo E-mail");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo E-mail vazio");
-            throw new CadastroException("Campo E-mail vazio");
+            throw new BibliotecaException("Campo E-mail vazio");
 
         }
         if (fdEndereco.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Endereco");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Endereço vazio");
-            throw new CadastroException("Campo Endereco vazio");
+            throw new BibliotecaException("Campo Endereco vazio");
 
         }
         if (fdFixo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Telefone Fixo");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Telefone Fixo vazio");
-            throw new CadastroException("Campo Telefone Fixo vazio");
+            throw new BibliotecaException("Campo Telefone Fixo vazio");
 
         }
         if (fdNascimento.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Data Nascimento");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Data Nascimento vazio");
-            throw new CadastroException("Campo Data Nascimento vazio");
+            throw new BibliotecaException("Campo Data Nascimento vazio");
 
         }
         if (fdNome.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Nome");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Nome vazio");
-            throw new CadastroException("Campo Nome vazio");
+            throw new BibliotecaException("Campo Nome vazio");
 
         }
         if (fdNumero.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Numero");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo Numero vazio");
-            throw new CadastroException("Campo Numero vazio");
+            throw new BibliotecaException("Campo Numero vazio");
 
         }
         if (fdRG.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo RG");
-            LogFiles.setFileContentAsText(LOG_FILE, "Campo RG vazio");
-            throw new CadastroException("Campo RG vazio");
+            throw new BibliotecaException("Campo RG vazio");
 
         }
 
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CEP;
     private javax.swing.JLabel CPF;
@@ -544,31 +507,27 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private javax.swing.JLabel email;
     private javax.swing.JLabel endereco;
     private javax.swing.JTextField fdBairro;
-    private javax.swing.JTextField fdCEP;
-    private javax.swing.JTextField fdCPF;
-    private javax.swing.JTextField fdCelular;
+    private javax.swing.JFormattedTextField fdCEP;
+    private javax.swing.JFormattedTextField fdCPF;
+    private javax.swing.JFormattedTextField fdCelular;
     private javax.swing.JTextField fdCidade;
-    private javax.swing.JTextField fdCodigo;
+    private javax.swing.JFormattedTextField fdCodigo;
     private javax.swing.JTextField fdEmail;
     private javax.swing.JTextField fdEndereco;
-    private javax.swing.JTextField fdFixo;
+    private javax.swing.JFormattedTextField fdFixo;
     private javax.swing.JTextField fdNascimento;
     private javax.swing.JTextField fdNome;
-    private javax.swing.JTextField fdNumero;
+    private javax.swing.JFormattedTextField fdNumero;
     private javax.swing.JTextField fdObservacoes;
-    private javax.swing.JTextField fdRG;
+    private javax.swing.JFormattedTextField fdRG;
     private javax.swing.JTextField fdReferencia;
     private javax.swing.JLabel fixo;
     private javax.swing.JLabel fixo1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel nascimento;
     private javax.swing.JLabel numero;
     private javax.swing.JLabel observacoes;
-    private javax.swing.JRadioButton rbFisica;
-    private javax.swing.JRadioButton rbJuridica;
     private javax.swing.JLabel referencia;
     // End of variables declaration//GEN-END:variables
 
-    
 }

@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import projetomdi.Exceptions.CadastroLivrosExceptions;
+import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Frames.Cadastro;
 import projetomdi.Frames.CadastroLivros;
 import projetomdi.LogFile.LogFiles;
@@ -19,7 +19,7 @@ import projetomdi.LogFile.LogFiles;
  *
  * @author comp8
  */
-public class CadastroLivroListener implements ActionListener{
+public class CadastroLivroListener implements ActionListener {
 
     private CadastroLivros cadLivro;
 
@@ -35,8 +35,8 @@ public class CadastroLivroListener implements ActionListener{
         } else if ("salvar".equals(e.getActionCommand())) {
             try {
                 cadLivro.salvar();
-            } catch (CadastroLivrosExceptions ex) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
+            } catch (BibliotecaException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }

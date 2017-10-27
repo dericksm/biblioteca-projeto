@@ -12,28 +12,71 @@ import java.io.Serializable;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class LogFiles implements Serializable{
+public class LogFiles implements Serializable {
 
-    public static boolean setFileContentAsStackTrace(File file, Throwable t ) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        t.printStackTrace(pw);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy aa hh:mm:ss");
-        String text = "\r\n\r\n" + sdf.format(new Date()) + "\r\n" + sw.toString();
-        pw.close();
+    public static boolean setFileContentAsStackTrace(File file, Throwable t, String user) {
+
+        StringWriter sw = null;
+        PrintWriter pw = null;
         try {
-            sw.close();
-        } catch (Exception e) {
+            sw = new StringWriter();
+            pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy aa hh:mm:ss");
+            String text = "\r\n Usuário: " + user + "\r\n\r\n" + sdf.format(new Date()) + "\r\n" + sw.toString();
+            return setFileContentAsText(file, text);
+        } finally {
+            try {
+                if (pw != null) {
+                    pw.close();
+                }
+            } finally {
+                if (sw != null) {
+                    try {
+                        sw.close();
+                    } catch (IOException ex) {
+                        //não tratato propositalmente por tal motivo
+                    }
+                }
+            }
         }
-        return setFileContentAsText(file, text);
     }
-    
-    
 
-    public static boolean setFileContentAsText(File file, String text ) {
+    public static boolean setFileContentAsStackTrace(File file, String message) {
+
+        StringWriter sw = null;
+        PrintWriter pw = null;
         try {
-            if(!file.exists()) {
+            sw = new StringWriter();
+            pw = new PrintWriter(sw);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy aa hh:mm:ss");
+            String text = "\r\n\r\n" + sdf.format(new Date()) + "\r\n" + message;
+            return setFileContentAsText(file, text);
+        } finally {
+            try {
+                if (pw != null) {
+                    pw.close();
+                }
+            } finally {
+                if (sw != null) {
+                    try {
+                        sw.close();
+                    } catch (IOException ex) {
+                        //não tratato propositalmente por tal motivo
+                    }
+                }
+            }
+        }
+
+    }
+
+    public static boolean setFileContentAsText(File file, String text) {
+        try {
+            if (!file.exists()) {
                 PrintWriter writer = new PrintWriter(LOG_FILENAME, "UTF-8");
                 writer.close();
             }
