@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import projetomdi.Exceptions.BibliotecaException;
+import projetomdi.Exceptions.CadastroException;
 import projetomdi.Frames.Cadastro;
 import projetomdi.LogFile.LogFiles;
 
@@ -36,8 +36,8 @@ public class CadastroListener implements ActionListener{
         } else if("salvar".equals(e.getActionCommand())){
             try {
                 cad.salvar();
-            } catch (BibliotecaException ex) {
-                System.out.println(ex.getMessage());
+            } catch (CadastroException ex) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
             }
         }
     }

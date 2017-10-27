@@ -18,7 +18,7 @@ import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroLivro;
-import projetomdi.Exceptions.BibliotecaException;
+import projetomdi.Exceptions.CadastroLivrosExceptions;
 import projetomdi.Listener.CadastroLivroListener;
 import projetomdi.LogFile.LogFiles;
 
@@ -30,21 +30,9 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
 
     CadastroLivro novoLivro = new CadastroLivro();
     CadastroLivroListener listener = new CadastroLivroListener(this);
-    private String currentUser;
 
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public CadastroLivros(String user) {
+    public CadastroLivros() {
         initComponents();
-        setCurrentUser(user);
-        
-        
 
     }
 
@@ -55,24 +43,41 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         }
     }
 
-    public void salvar() throws BibliotecaException {
+    public void salvar() throws CadastroLivrosExceptions {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
-
+            
             try {
                 ValidaVazio();
             } catch (Exception e) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
-
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+                
             }
             try {
                 novoLivro.setAno(Integer.parseInt(fdAno.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Ano com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+
+            try {
                 novoLivro.setQuantidade(Integer.parseInt(fdQuantidade.getText()));
-                novoLivro.setCodigoLivro(Integer.parseInt(fdCodigo.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Quantidade com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+            try {
+                novoLivro.setCodigoLivro(Integer.parseInt(fdCodigoLivro.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Codigo com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
+            }
+            try {
                 novoLivro.setnPaginas(Integer.parseInt(fdPaginas.getText()));
             } catch (NumberFormatException e) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o campo Páginas com números");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e);
             }
 
             novoLivro.setAutor(fdAutor.getText());
@@ -80,18 +85,17 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             novoLivro.setGenero(fdGenero.getText());
             novoLivro.setNome(fdNome.getText());
             novoLivro.imprimir();
-            
-            LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Livro");
         }
 
     }
 
-    public void limpar() {
+    public void limpar()
+    {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?", "Confirmação Limpar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             fdAno.setText("");
             fdAutor.setText("");
-            fdCodigo.setText("");
+            fdCodigoLivro.setText("");
             fdEditora.setText("");
             fdGenero.setText("");
             fdNome.setText("");
@@ -100,61 +104,71 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
 
         }
     }
-
-    public void ValidaVazio() throws BibliotecaException {
+    
+    public void ValidaVazio() throws CadastroLivrosExceptions {
         if (fdAno.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Ano");
-            throw new BibliotecaException("Campo Ano Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Ano vazio");
+            throw new CadastroLivrosExceptions ("Campo Ano Vazio");
+            
         }
         if (fdAutor.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Autor");
-            throw new BibliotecaException("Campo Autor Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Autor vazio");
+            throw new CadastroLivrosExceptions ("Campo Autor Vazio");
+            
         }
-        if (fdCodigo.getText().isEmpty()) {
+        if (fdCodigoLivro.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
-            throw new BibliotecaException("Campo Codigo Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Codigo vazio");
+            throw new CadastroLivrosExceptions ("Campo Codigo Vazio");
+            
         }
         if (fdEditora.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Editora");
-            throw new BibliotecaException("Campo Editora Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Editora vazio");
+            throw new CadastroLivrosExceptions ("Campo Editora Vazio");
+            
         }
         if (fdGenero.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Gênero");
-            throw new BibliotecaException("Campo Gênero Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Gênero vazio");
+            throw new CadastroLivrosExceptions ("Campo Gênero Vazio");
+            
         }
         if (fdNome.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Nome");
-            throw new BibliotecaException("Campo Nome Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Nome vazio");
+            throw new CadastroLivrosExceptions ("Campo Nome Vazio");
+            
         }
         if (fdPaginas.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Paginas");
-            throw new BibliotecaException("Campo Paginas Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Paginas vazio");
+            throw new CadastroLivrosExceptions ("Campo Paginas Vazio");
+            
         }
         if (fdQuantidade.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Quantidade Paginas");
-            throw new BibliotecaException("Campo Quantidade Paginas Vazio");
-
+            LogFiles.setFileContentAsText(LOG_FILE, "Campo Quantidade Paginas vazio");
+            throw new CadastroLivrosExceptions ("Campo Quantidade Paginas Vazio");
+            
         }
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fdCodigoLivro = new javax.swing.JTextField();
         codigoLivro = new javax.swing.JLabel();
         fdNome = new javax.swing.JTextField();
         codigoLivro1 = new javax.swing.JLabel();
         autor = new javax.swing.JLabel();
         fdAutor = new javax.swing.JTextField();
         ano = new javax.swing.JLabel();
+        fdAno = new javax.swing.JTextField();
         ano1 = new javax.swing.JLabel();
+        fdPaginas = new javax.swing.JTextField();
         fdGenero = new javax.swing.JTextField();
         genero = new javax.swing.JLabel();
         fdEditora = new javax.swing.JTextField();
@@ -164,9 +178,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         btnSalvarLivro = new javax.swing.JButton();
         btnLimparLivro = new javax.swing.JButton();
         btnSairLivro = new javax.swing.JButton();
-        fdCodigo = new javax.swing.JFormattedTextField();
-        fdAno = new javax.swing.JFormattedTextField();
-        fdPaginas = new javax.swing.JFormattedTextField();
 
         codigoLivro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLivro.setText("Código Livro");
@@ -204,24 +215,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         btnSairLivro.setActionCommand("sair");
         btnSairLivro.setText("Sair");
 
-        try {
-            fdCodigo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            fdAno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            fdPaginas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,8 +224,8 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(codigoLivro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fdCodigo))
+                        .addGap(18, 18, 18)
+                        .addComponent(fdCodigoLivro))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(codigoLivro1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -257,11 +250,11 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(ano)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fdAno, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addComponent(fdAno, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ano1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fdPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(fdPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSairLivro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -276,7 +269,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoLivro)
-                    .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fdCodigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoLivro1)
@@ -288,10 +281,10 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ano)
+                    .addComponent(fdAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ano1)
-                        .addComponent(fdAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(fdPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(fdPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ano1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(genero)
@@ -309,7 +302,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                     .addComponent(btnSalvarLivro)
                     .addComponent(btnLimparLivro)
                     .addComponent(btnSairLivro))
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
@@ -326,13 +319,13 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
     private javax.swing.JLabel codigoLivro;
     private javax.swing.JLabel codigoLivro1;
     private javax.swing.JLabel editora;
-    private javax.swing.JFormattedTextField fdAno;
+    private javax.swing.JTextField fdAno;
     private javax.swing.JTextField fdAutor;
-    private javax.swing.JFormattedTextField fdCodigo;
+    private javax.swing.JTextField fdCodigoLivro;
     private javax.swing.JTextField fdEditora;
     private javax.swing.JTextField fdGenero;
     private javax.swing.JTextField fdNome;
-    private javax.swing.JFormattedTextField fdPaginas;
+    private javax.swing.JTextField fdPaginas;
     private javax.swing.JTextField fdQuantidade;
     private javax.swing.JLabel genero;
     private javax.swing.JLabel quantidade;

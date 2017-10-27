@@ -5,12 +5,11 @@
  */
 package Modules.login;
 
-
+import projetomdi.Exceptions.LoginException;
 import config.config;
 import static config.config.LOG_FILE;
 import java.io.Serializable;
 import javax.swing.JOptionPane;
-import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Frames.TelaPrincipal;
 import projetomdi.LogFile.LogFiles;
 
@@ -27,16 +26,13 @@ public class LoginController {
     static final String SUCCESS_MESSAGE = "Logado com sucesso";
     static final String ERROR_MESSAGE = "Login ou senha inválido";
     static final String CANCEL_MESSAGE = "Login cancelado, saindo do sistema";
-    
 
-    public void login(String account, String password) throws BibliotecaException {
+    public void login(String account, String password) throws LoginException {
         if (!authenticate(account, password))
-            throw new BibliotecaException(ERROR_MESSAGE);
+            throw new LoginException(ERROR_MESSAGE);
     }
     
     private boolean authenticate(String account, String password){
         return (account.equals(config.SYSTEM_ACCOUNT) && password.equals(config.SYSTEM_PASSWORD));
     }
-    
-    
 }

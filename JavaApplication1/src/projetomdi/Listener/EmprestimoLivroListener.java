@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import projetomdi.Exceptions.BibliotecaException;
+import projetomdi.Exceptions.EmprestimoExceptions;
 import projetomdi.Frames.CadastroLivros;
 import projetomdi.Frames.EmprestimoLivro;
 import projetomdi.LogFile.LogFiles;
@@ -39,8 +39,8 @@ public class EmprestimoLivroListener implements ActionListener {
         } else if ("concluir".equals(e.getActionCommand())) {
             try {
                 emprestimoLivro.concluir();
-            } catch (BibliotecaException ex) {
-                System.out.println(ex.getMessage());
+            } catch (EmprestimoExceptions ex) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, ex);
             }
         }
     }

@@ -9,21 +9,21 @@ package projetomdi.Exceptions;
  *
  * @author CLIENTE
  */
-public class BibliotecaException extends Exception{
+public class CadastroException extends Exception{
     
-    public BibliotecaException() {
+    public CadastroException() {
         super("Erro desconhecido");
     }
     
-    public BibliotecaException(Throwable thr) {
+    public CadastroException(Throwable thr) {
         super(thr);
     }
 
-    public BibliotecaException(String mensagem) {
+    public CadastroException(String mensagem) {
         super(mensagem);
     }
     
-     public BibliotecaException(String mensagem, Throwable thr) {
+     public CadastroException(String mensagem, Throwable thr) {
         super(mensagem, thr);
     }
     

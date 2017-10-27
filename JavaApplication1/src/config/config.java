@@ -20,5 +20,4 @@ public interface config {
     public static final String LOG_FILENAME = "logfile.txt";
     public static final File LOG_FILE = new File("logfile.txt");
     public static final File USER_FILE = new File("user.txt");
-    
 }
