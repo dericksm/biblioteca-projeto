@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projetomdi.Listener;
 
 import Modules.login.LoginView;
@@ -20,28 +15,24 @@ import projetomdi.LogFile.LogFiles;
  * @author CLIENTE
  */
 public class LoginListener implements ActionListener {
-    
+
     private LoginView login;
 
     public LoginListener(LoginView login) {
         this.login = login;
-    }      
-    
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if("login".equals(e.getActionCommand())) {
+        if ("login".equals(e.getActionCommand())) {
             try {
                 login.login();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
-            } catch (BibliotecaException ex) {
-                Logger.getLogger(LoginListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if("cancelar".equals(e.getActionCommand())){
+        } else if ("cancelar".equals(e.getActionCommand())) {
             login.cancelar();
         }
     }
-    
-    
+
 }
