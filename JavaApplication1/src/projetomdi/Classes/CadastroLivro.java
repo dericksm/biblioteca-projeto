@@ -1,48 +1,34 @@
 
 package projetomdi.Classes;
 
-
 public class CadastroLivro {
     
-    int codigoLivro;
-    int ano;
-    int nPaginas;
-    int quantidade;
+    int codigo;
     String nome;
     String autor;
+    int ano;
+    int num_paginas;
     String genero;
     String editora;
-
-    public int getCodigoLivro() {
-        return codigoLivro;
+    int quantidade;
+    
+    public void imprimir() {
+        System.out.println(codigo);
+        System.out.println(nome);
+        System.out.println(autor);
+        System.out.println(ano);
+        System.out.println(num_paginas);
+        System.out.println(genero);
+        System.out.println(editora);
+        System.out.println(quantidade);
     }
 
-    public void setCodigoLivro(int codigoLivro) {
-        this.codigoLivro = codigoLivro;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
-    public int getnPaginas() {
-        return nPaginas;
-    }
-
-    public void setnPaginas(int nPaginas) {
-        this.nPaginas = nPaginas;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {
@@ -61,6 +47,22 @@ public class CadastroLivro {
         this.autor = autor;
     }
 
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public int getNum_paginas() {
+        return num_paginas;
+    }
+
+    public void setNum_paginas(int num_paginas) {
+        this.num_paginas = num_paginas;
+    }
+
     public String getGenero() {
         return genero;
     }
@@ -76,18 +78,12 @@ public class CadastroLivro {
     public void setEditora(String editora) {
         this.editora = editora;
     }
-    
-    
-    public void imprimir() {
-        System.out.println(codigoLivro);
-        System.out.println(nome);
-        System.out.println(autor);
-        System.out.println(ano);
-        System.out.println(nPaginas);
-        System.out.println(genero);
-        System.out.println(editora);
-        System.out.println(quantidade);
-        
+
+    public int getQuantidade() {
+        return quantidade;
     }
-    
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 }
