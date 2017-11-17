@@ -368,8 +368,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 cliente.setCep(Integer.parseInt(fdFixo.getText().replaceAll("[.-]", "")));
                 cliente.setCpf(Integer.parseInt(fdCPF.getText().replaceAll("[.-]", "")));
                 cliente.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
-                cliente.setCel(Integer.parseInt(fdCelular.getText().replaceAll("[()-]", "")));
-                cliente.setTelFixo(Integer.parseInt(fdFixo.getText().replaceAll("[()-]", "")));
+                cliente.setCelular(Integer.parseInt(fdCelular.getText().replaceAll("[()-]", "")));
+                cliente.setTelefone(Integer.parseInt(fdFixo.getText().replaceAll("[()-]", "")));
                 
             } catch (NumberFormatException e) {
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
@@ -380,7 +380,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
             cliente.setBairro(fdBairro.getText());
             cliente.setReferencia(fdReferencia.getText());
             cliente.setEmail(fdEmail.getText());
-            cliente.setObs(fdObservacoes.getText());
+            cliente.setObservacao(fdObservacoes.getText());
             cliente.setUf(UF.getText());
             cliente.imprimir();
             

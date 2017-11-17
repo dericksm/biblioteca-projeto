@@ -65,7 +65,7 @@ public class LivrosDao {
         PreparedStatement ps = null;
         try {
             conn = Conexao.getConnection();
-            
+
             String sql = "insert into livros ("
                     + "nome,"
                     + "autor,"
@@ -131,7 +131,7 @@ public class LivrosDao {
                     + "quantidade"
                     + "where codigo = ?";
             ps = conn.prepareStatement(sql);
-            
+
             ps.setString(1, cadastroLivro.getNome());
             ps.setString(2, cadastroLivro.getAutor());
             ps.setInt(3, cadastroLivro.getAno());
@@ -139,7 +139,7 @@ public class LivrosDao {
             ps.setString(5, cadastroLivro.getGenero());
             ps.setString(6, cadastroLivro.getEditora());
             ps.setInt(7, cadastroLivro.getQuantidade());
-            
+
             ps.execute();
             conn.commit();
         } catch (SQLException e) {
@@ -254,38 +254,25 @@ public class LivrosDao {
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
+
                 String nome = rs.getString(2);
-                String endereco = rs.getString(3);
-                Integer numero = rs.getInt(4);
-                String bairro = rs.getString(5);
-                String referencia = rs.getString(6);
-                String cidade = rs.getString(7);
-                Integer cep = rs.getInt(8);
-                Integer telefone = rs.getInt(9);
-                Integer celular = rs.getInt(10);
-                String email = rs.getString(11);
-                Integer rg = rs.getInt(12);
-                Integer cpf = rs.getInt(13);
-                String data_nasc = rs.getString(14);
-                String observacao = rs.getString(15);
+                String autor = rs.getString(3);
+                int ano = rs.getInt(4);
+                int num_paginas = rs.getInt(5);
+                String genero = rs.getString(6);
+                String editora = rs.getString(7);
+                int quantidade = rs.getInt(8);
 
                 CadastroLivro cadastroLivro = new CadastroLivro();
 
                 cadastroLivro.setCodigo(codigo);
-//                cadastroLivro.setNome(nome);
-//                cadastroLivro.setEndereco(endereco);
-//                cadastroLivro.setNumero(numero);
-//                cadastroLivro.setBairro(bairro);
-//                cadastroLivro.setReferencia(referencia);
-//                cadastroLivro.setCidade(cidade);
-//                cadastroLivro.setCep(cep);
-//                cadastroLivro.setTelefone(telefone);
-//                cadastroLivro.setCelular(celular);
-//                cadastroLivro.setEmail(email);
-//                cadastroLivro.setRg(rg);
-//                cadastroLivro.setCpf(cpf);
-//                cadastroLivro.setData_nasc(data_nasc);
-//                cadastroLivro.setObservacao(observacao);
+                cadastroLivro.setNome(nome);
+                cadastroLivro.setAutor(autor);
+                cadastroLivro.setAno(ano);
+                cadastroLivro.setNum_paginas(num_paginas);
+                cadastroLivro.setGenero(genero);
+                cadastroLivro.setEditora(editora);
+                cadastroLivro.setQuantidade(quantidade);
 
                 return cadastroLivro;
             }

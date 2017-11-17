@@ -4,62 +4,52 @@ package projetomdi.Classes;
 
 public class CadastroEmprestimo {
     
-    String cliente;
-    String livro;
-    String dataSaque;
-    String dataDevolucao;
-    String observacoes;
+    int codigo;
+    int codigo_cliente;
+    int codigo_livro;
+    String data_emprestimo;
+    String data_devolucao;
     int prazo;
-    
-    
-    public void imprimir() {
-        System.out.println(cliente);
-        System.out.println(livro);
-        System.out.println(dataSaque);
-        System.out.println(dataDevolucao);
-        System.out.println(observacoes);
-        System.out.println(prazo);
-    }
-    
-    
-    public String getCliente() {
-        return cliente;
+    String observacao;
+
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public String getLivro() {
-        return livro;
+    public int getCodigo_cliente() {
+        return codigo_cliente;
     }
 
-    public void setLivro(String livro) {
-        this.livro = livro;
+    public void setCodigo_cliente(int codigo_cliente) {
+        this.codigo_cliente = codigo_cliente;
     }
 
-    public String getDataSaque() {
-        return dataSaque;
+    public int getCodigo_livro() {
+        return codigo_livro;
     }
 
-    public void setDataSaque(String dataSaque) {
-        this.dataSaque = dataSaque;
+    public void setCodigo_livro(int codigo_livro) {
+        this.codigo_livro = codigo_livro;
     }
 
-    public String getDataDevolucao() {
-        return dataDevolucao;
+    public String getData_emprestimo() {
+        return data_emprestimo;
     }
 
-    public void setDataDevolucao(String dataDevolucao) {
-        this.dataDevolucao = dataDevolucao;
+    public void setData_emprestimo(String data_emprestimo) {
+        this.data_emprestimo = data_emprestimo;
     }
 
-    public String getObservacoes() {
-        return observacoes;
+    public String getData_devolucao() {
+        return data_devolucao;
     }
 
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
+    public void setData_devolucao(String data_devolucao) {
+        this.data_devolucao = data_devolucao;
     }
 
     public int getPrazo() {
@@ -69,7 +59,22 @@ public class CadastroEmprestimo {
     public void setPrazo(int prazo) {
         this.prazo = prazo;
     }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
     
-    
-    
+    public void imprimir() {
+        System.out.println(codigo);
+        System.out.println(codigo_cliente);
+        System.out.println(codigo_livro);
+        System.out.println(data_emprestimo);
+        System.out.println(data_devolucao);
+        System.out.println(prazo);
+        System.out.println(observacao);
+    }
 }

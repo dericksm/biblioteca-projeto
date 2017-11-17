@@ -58,21 +58,24 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             fdObservacoes.setText("");
         }
     }
-
+    private CadastroEmprestimo getEmprestimo() {
+        CadastroEmprestimo emprestimo = new CadastroEmprestimo();
+        
+        emprestimo.setCodigo_cliente(menuClientes.getSelectedItem().hashCode());
+        emprestimo.setCodigo_livro(menuLivro.getSelectedItem().hashCode());
+        emprestimo.setData_emprestimo(fdEmprestimo.getText());
+        emprestimo.setData_devolucao(fdDevolucao.getText());
+        emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
+        emprestimo.setObservacao(fdObservacoes.getText());
+        
+        return emprestimo;
+    }
     public void concluir() throws BibliotecaException {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             ValidaVazio();
-            /* esse métodos serão implementados quando o BANCO estiver integrado
-            emprestimo.setCliente(menuClientes.getSelectedItem().toString());
-            emprestimo.setDataDevolucao(fdDevolucao.getText());
-            emprestimo.setDataSaque(); vai ser implementado quando estiver com o banco
-            emprestimo.setLivro(menuLivro.getSelectedItem().toString());
-            emprestimo.setObservacoes(fdObservacoes.getText());
-            emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
-            */
-            
+            CadastroEmprestimo emprestimo = getEmprestimo();
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Emprestimo");
         }
     }

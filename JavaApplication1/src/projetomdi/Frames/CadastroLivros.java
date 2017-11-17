@@ -69,8 +69,8 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             try {
                 novoLivro.setAno(Integer.parseInt(fdAno.getText()));
                 novoLivro.setQuantidade(Integer.parseInt(fdQuantidade.getText()));
-                novoLivro.setCodigoLivro(Integer.parseInt(fdCodigo.getText()));
-                novoLivro.setnPaginas(Integer.parseInt(fdPaginas.getText()));
+                novoLivro.setCodigo(Integer.parseInt(fdCodigo.getText()));
+                novoLivro.setNum_paginas(Integer.parseInt(fdPaginas.getText()));
             } catch (NumberFormatException e) {
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
             }
