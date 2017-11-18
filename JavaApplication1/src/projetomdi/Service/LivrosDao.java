@@ -21,6 +21,40 @@ import projetomdi.Classes.CadastroLivro;
 //As exceções devem ser propagadas para a camada de apresentação, ou seja, deve ser utilizado throws em cada um dos métodos
 public class LivrosDao {
 
+    private int getMaxCodigo() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexao.getConnection();
+            String sql = "SELECT MAX(codigo) FROM livros";
+            ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int codigo = rs.getInt(1);
+                System.out.println(codigo);
+                return codigo;
+            }
+        } catch (SQLException e) {
+            System.out.println("ERRO: " + e.getMessage());
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+        }
+        return 0;
+    }
+    
     public void delete(CadastroLivro cadastroLivro) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -73,7 +107,8 @@ public class LivrosDao {
                     + "num_paginas,"
                     + "genero,"
                     + "editora,"
-                    + "quantidade"
+                    + "quantidade,"
+                    + "codigo"
                     + ") "
                     + "values(?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
@@ -84,6 +119,7 @@ public class LivrosDao {
             ps.setString(5, cadastroLivro.getGenero());
             ps.setString(6, cadastroLivro.getEditora());
             ps.setInt(7, cadastroLivro.getQuantidade());
+            ps.setInt(8, this.getMaxCodigo());
             ps.execute();
 
             conn.commit();

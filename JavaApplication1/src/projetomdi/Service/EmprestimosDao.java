@@ -19,6 +19,41 @@ import projetomdi.Classes.CadastroEmprestimo;
  */
 public class EmprestimosDao {
     
+    
+    private int getMaxCodigo() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexao.getConnection();
+            String sql = "SELECT MAX(codigo) FROM emprestimos";
+            ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int codigo = rs.getInt(1);
+                System.out.println(codigo);
+                return codigo;
+            }
+        } catch (SQLException e) {
+            System.out.println("ERRO: " + e.getMessage());
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+        }
+        return 0;
+    }
+    
     public void delete(CadastroEmprestimo emprestimo) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -74,7 +109,8 @@ public class EmprestimosDao {
                     + ") "
                     + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, emprestimo.getCodigo());
+            System.out.println(this.getMaxCodigo());
+            ps.setInt(1, this.getMaxCodigo());
             ps.setInt(2, emprestimo.getCodigo_cliente());
             ps.setInt(3, emprestimo.getCodigo_livro());
             ps.setString(4, emprestimo.getData_emprestimo());
