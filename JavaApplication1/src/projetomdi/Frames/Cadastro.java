@@ -5,22 +5,20 @@
  */
 package projetomdi.Frames;
 
-import Modules.login.LoginView;
 import static config.config.LOG_FILE;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import projetomdi.Classes.CadastroCliente;
 import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Listener.CadastroListener;
 import projetomdi.LogFile.LogFiles;
+import projetomdi.Service.ClientesDAO;
 
 public class Cadastro extends javax.swing.JInternalFrame {
 
     CadastroCliente cliente = new CadastroCliente();
     CadastroListener listener = new CadastroListener(this);
     private String currentUser;
+    ClientesDAO clientesDao = new ClientesDAO();
 
     public String getCurrentUser() {
         return currentUser;
@@ -371,6 +369,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 cliente.setCelular(Integer.parseInt(fdCelular.getText().replaceAll("[()-]", "")));
                 cliente.setTelefone(Integer.parseInt(fdFixo.getText().replaceAll("[()-]", "")));
                 
+                
             } catch (NumberFormatException e) {
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
             }
@@ -383,7 +382,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
             cliente.setObservacao(fdObservacoes.getText());
             cliente.setUf(UF.getText());
             cliente.imprimir();
-            
+            clientesDao.insert(cliente);
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Usuario");
         }
 

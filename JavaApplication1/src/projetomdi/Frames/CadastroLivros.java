@@ -5,22 +5,13 @@
  */
 package projetomdi.Frames;
 
-import Modules.login.LoginView;
 import static config.config.LOG_FILE;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import static javax.swing.SwingUtilities.updateComponentTreeUI;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroLivro;
 import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Listener.CadastroLivroListener;
 import projetomdi.LogFile.LogFiles;
+import projetomdi.Service.LivrosDao;
 
 /**
  *
@@ -30,6 +21,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
 
     CadastroLivro novoLivro = new CadastroLivro();
     CadastroLivroListener listener = new CadastroLivroListener(this);
+    LivrosDao livrosDao = new LivrosDao();
     private String currentUser;
 
     public String getCurrentUser() {
@@ -80,6 +72,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             novoLivro.setGenero(fdGenero.getText());
             novoLivro.setNome(fdNome.getText());
             novoLivro.imprimir();
+            livrosDao.insert(novoLivro);
             
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Livro");
         }

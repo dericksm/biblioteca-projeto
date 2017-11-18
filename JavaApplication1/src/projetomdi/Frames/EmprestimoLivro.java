@@ -5,23 +5,14 @@
  */
 package projetomdi.Frames;
 
-import Modules.login.LoginView;
 import static config.config.LOG_FILE;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import static javax.swing.SwingUtilities.updateComponentTreeUI;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import projetomdi.Classes.CadastroEmprestimo;
 import projetomdi.Exceptions.BibliotecaException;
 
 import projetomdi.Listener.EmprestimoLivroListener;
 import projetomdi.LogFile.LogFiles;
+import projetomdi.Service.EmprestimosDao;
 
 /**
  *
@@ -29,8 +20,8 @@ import projetomdi.LogFile.LogFiles;
  */
 public class EmprestimoLivro extends javax.swing.JInternalFrame {
 
-    CadastroEmprestimo emprestimo = new CadastroEmprestimo();
     EmprestimoLivroListener listener = new EmprestimoLivroListener(this);
+    EmprestimosDao emprestimoDao = new EmprestimosDao();
     private String currentUser;
 
     public String getCurrentUser() {
@@ -40,8 +31,6 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
-    
-    
 
     public EmprestimoLivro(String user) {
         initComponents();
@@ -58,24 +47,32 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             fdObservacoes.setText("");
         }
     }
+
     private CadastroEmprestimo getEmprestimo() {
         CadastroEmprestimo emprestimo = new CadastroEmprestimo();
-        
+
         emprestimo.setCodigo_cliente(menuClientes.getSelectedItem().hashCode());
         emprestimo.setCodigo_livro(menuLivro.getSelectedItem().hashCode());
         emprestimo.setData_emprestimo(fdEmprestimo.getText());
         emprestimo.setData_devolucao(fdDevolucao.getText());
-        emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
         emprestimo.setObservacao(fdObservacoes.getText());
         
+        try {
+            emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
+        } catch (NumberFormatException e) {
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
+
         return emprestimo;
     }
+
     public void concluir() throws BibliotecaException {
 
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             ValidaVazio();
             CadastroEmprestimo emprestimo = getEmprestimo();
+            emprestimoDao.insert(emprestimo);
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Emprestimo");
         }
     }
