@@ -48,7 +48,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        codigo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         fdNome = new javax.swing.JTextField();
         fdEndereco = new javax.swing.JTextField();
@@ -83,7 +82,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
         btnLimpar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        fdCodigo = new javax.swing.JFormattedTextField();
         fdNumero = new javax.swing.JFormattedTextField();
         fdCEP = new javax.swing.JFormattedTextField();
         fdFixo = new javax.swing.JFormattedTextField();
@@ -94,9 +92,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
-
-        codigo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        codigo.setText("Código");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Nome");
@@ -166,12 +161,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
         btnSair.setText("Sair");
 
         try {
-            fdCodigo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
             fdNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
@@ -219,16 +208,9 @@ public class Cadastro extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(fdNome))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(codigo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(fdNome)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +225,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CPF)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fdCPF)
+                                .addComponent(fdCPF, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(nascimento)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -309,10 +291,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codigo)
-                    .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(fdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -364,7 +342,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
                     .addComponent(btnCancelar)
                     .addComponent(btnSair)
                     .addComponent(btnAtualizar))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
@@ -372,14 +350,13 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
     public void setCampos(){
         
-        fdCodigo.setText(String.valueOf(cliente.getCodigo()));
         fdNome.setText(cliente.getNome());
         fdEndereco.setText(cliente.getEndereco());
         fdNumero.setText(String.valueOf(cliente.getNumero()));
         fdBairro.setText(cliente.getBairro());
         fdReferencia.setText(cliente.getReferencia());
         fdCidade.setText(cliente.getCidade());
-        fdCEP.setText(String.valueOf(cliente.getCodigo()));
+        fdCEP.setText(String.valueOf(cliente.getCep()));
         fdCelular.setText(String.valueOf(cliente.getCelular()));
         fdFixo.setText(String.valueOf(cliente.getTelefone()));
         fdEmail.setText(cliente.getEmail());
@@ -402,7 +379,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
             ValidacaoCadastro();
 
             try {
-                cliente.setCodigo(Integer.parseInt(fdCodigo.getText()));
                 cliente.setNumero(Integer.parseInt(fdNumero.getText()));
                 cliente.setCep(Integer.parseInt(fdFixo.getText().replaceAll("[.-]", "")));
                 cliente.setCpf(Integer.parseInt(fdCPF.getText().replaceAll("[.-]", "")));
@@ -432,7 +408,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
     public void limpar() {
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?", "Confirmação Limpar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
-            fdCodigo.setText("");
             fdNome.setText("");
             fdEndereco.setText("");
             fdNumero.setText("");
@@ -488,11 +463,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
             throw new BibliotecaException("Campo Cidade vazio");
 
         }
-        if (fdCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
-            throw new BibliotecaException("Campo Codigo vazio");
-
-        }
         if (fdEmail.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo E-mail");
             throw new BibliotecaException("Campo E-mail vazio");
@@ -544,7 +514,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel cidade;
-    private javax.swing.JLabel codigo;
     private javax.swing.JLabel email;
     private javax.swing.JLabel endereco;
     private javax.swing.JTextField fdBairro;
@@ -552,7 +521,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField fdCPF;
     private javax.swing.JFormattedTextField fdCelular;
     private javax.swing.JTextField fdCidade;
-    private javax.swing.JFormattedTextField fdCodigo;
     private javax.swing.JTextField fdEmail;
     private javax.swing.JTextField fdEndereco;
     private javax.swing.JFormattedTextField fdFixo;
