@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Frames.TelaPrincipal;
 import projetomdi.LogFile.LogFiles;
+import projetomdi.Service.UserAuth;
 
 /**
  *
@@ -30,13 +31,7 @@ public class LoginController {
     
 
     public void login(String account, String password) throws BibliotecaException {
-        if (!authenticate(account, password))
+        if (!UserAuth.autenticaUsuario(account, password))
             throw new BibliotecaException(ERROR_MESSAGE);
-    }
-    
-    private boolean authenticate(String account, String password){
-        return (account.equals(config.SYSTEM_ACCOUNT) && password.equals(config.SYSTEM_PASSWORD));
-    }
-    
-    
+    }  
 }
