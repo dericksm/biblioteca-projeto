@@ -396,10 +396,17 @@ public class Cadastro extends javax.swing.JInternalFrame {
             cliente.setBairro(fdBairro.getText());
             cliente.setReferencia(fdReferencia.getText());
             cliente.setEmail(fdEmail.getText());
+            cliente.setCidade(fdCidade.getText());
             cliente.setObservacao(fdObservacoes.getText());
             cliente.setUf(UF.getText());
+            cliente.setData_nasc(fdNascimento.getText());
             cliente.imprimir();
-            clientesDao.insert(cliente);
+            try {
+                clientesDao.insert(cliente);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir, por favor, tente novamente");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+            }
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Usuario");
         }
 

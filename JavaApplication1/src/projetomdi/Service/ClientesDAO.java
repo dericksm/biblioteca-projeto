@@ -149,7 +149,7 @@ public class ClientesDAO {
             ps.setString(13, cadastroCliente.getData_nasc());
             ps.setString(14, cadastroCliente.getObservacao());
             System.out.println(this.getMaxCodigo());
-            ps.setInt(15, this.getMaxCodigo());
+            ps.setInt(15, this.getMaxCodigo() + 1);
             ps.execute();
 
             conn.commit();
