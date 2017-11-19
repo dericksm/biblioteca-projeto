@@ -20,6 +20,43 @@ import projetomdi.Classes.CadastroCliente;
 
 //As exceções devem ser propagadas para a camada de apresentação, ou seja, deve ser utilizado throws em cada um dos métodos
 public class ClientesDAO {
+
+    
+    private int getMaxCodigo() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexao.getConnection();
+            String sql = "SELECT MAX(codigo) FROM clientes";
+            ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int codigo = rs.getInt(1);
+                System.out.println(codigo);
+                return codigo;
+            }
+        } catch (SQLException e) {
+            System.out.println("ERRO: " + e.getMessage());
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            }
+        }
+        return 0;
+    }
+    
+
     public void delete(CadastroCliente cadastroCliente) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -78,9 +115,10 @@ public class ClientesDAO {
                     + "rg,"
                     + "cpf,"
                     + "data_nasc,"
-                    + "observacao"
-                    + ") "
-                    + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    + "observacao,"
+                    + "codigo"
+                    + ")"
+                    + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1, cadastroCliente.getNome());
             ps.setString(2, cadastroCliente.getEndereco());
@@ -96,6 +134,8 @@ public class ClientesDAO {
             ps.setInt(12, cadastroCliente.getCpf());
             ps.setString(13, cadastroCliente.getData_nasc());
             ps.setString(14, cadastroCliente.getObservacao());
+            System.out.println(this.getMaxCodigo());
+            ps.setInt(15, this.getMaxCodigo());
             ps.execute();
 
             conn.commit();

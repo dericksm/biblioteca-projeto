@@ -124,3 +124,6 @@ java.lang.NumberFormatException: For input string: "    "
 
 17/11/2017 PM 10:00:12
 Usuário null cadastrou um Livro
+
+18/11/2017 PM 08:51:54
+null acessou Emprestimo Livro
