@@ -182,42 +182,43 @@ public class ClientesDAO {
         }
     }
 
-    public void update(CadastroCliente cadastroCliente) {
+    public void update(CadastroCliente updateCliente) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = Conexao.getConnection();
             String sql = "update clientes set "
-                    + "nome = ?,"
-                    + "endereco = ?,"
-                    + "numero = ?,"
-                    + "bairro = ?,"
-                    + "referencia = ?,"
-                    + "cidade = ?,"
-                    + "cep,"
-                    + "telefone,"
-                    + "celular = ?,"
-                    + "email = ?,"
-                    + "rg = ?,"
-                    + "cpf = ?,"
-                    + "data_nasc = ?,"
-                    + "observacao = ? "
-                    + "where codigo = ?";
+                    + "nome =?,"
+                    + "endereco =?,"
+                    + "numero =?,"
+                    + "bairro =?,"
+                    + "referencia =?,"
+                    + "cidade =?,"
+                    + "cep =?,"
+                    + "telefone =?,"
+                    + "celular =?,"
+                    + "email =?,"
+                    + "rg =?,"
+                    + "cpf =?,"
+                    + "data_nasc =?,"
+                    + "observacao =? "
+                    + "where codigo =?";
             ps = conn.prepareStatement(sql);
-            ps.setString(1, cadastroCliente.getNome());
-            ps.setString(2, cadastroCliente.getEndereco());
-            ps.setInt(3, cadastroCliente.getNumero());
-            ps.setString(4, cadastroCliente.getBairro());
-            ps.setString(5, cadastroCliente.getReferencia());
-            ps.setString(6, cadastroCliente.getCidade());
-            ps.setInt(7, cadastroCliente.getCep());
-            ps.setLong(8, cadastroCliente.getTelefone());
-            ps.setLong(9, cadastroCliente.getCelular());
-            ps.setString(10, cadastroCliente.getEmail());
-            ps.setInt(11, cadastroCliente.getRg());
-            ps.setLong(12, cadastroCliente.getCpf());
-            ps.setString(13, cadastroCliente.getData_nasc());
-            ps.setString(14, cadastroCliente.getObservacao());
+            ps.setString(1, updateCliente.getNome());
+            ps.setString(2, updateCliente.getEndereco());
+            ps.setInt(3, updateCliente.getNumero());
+            ps.setString(4, updateCliente.getBairro());
+            ps.setString(5, updateCliente.getReferencia());
+            ps.setString(6, updateCliente.getCidade());
+            ps.setInt(7, updateCliente.getCep());
+            ps.setLong(8, updateCliente.getTelefone());
+            ps.setLong(9, updateCliente.getCelular());
+            ps.setString(10, updateCliente.getEmail());
+            ps.setInt(11, updateCliente.getRg());
+            ps.setLong(12, updateCliente.getCpf());
+            ps.setString(13, updateCliente.getData_nasc());
+            ps.setString(14, updateCliente.getObservacao());
+            ps.setInt(15, updateCliente.getCodigo());
             ps.execute();
 
             conn.commit();
@@ -339,6 +340,7 @@ public class ClientesDAO {
         PreparedStatement ps = null;
         try {
             conn = Conexao.getConnection();
+            
             String sql = "select "
                     + "codigo,"
                     + "nome,"
@@ -357,8 +359,8 @@ public class ClientesDAO {
                     + "observacao"
                     + " from clientes"
                     + " where codigo =?";
+            
             ps = conn.prepareStatement(sql);
-            ps.executeUpdate();
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
