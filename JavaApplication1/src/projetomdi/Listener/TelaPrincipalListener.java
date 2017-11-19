@@ -32,7 +32,7 @@ public class TelaPrincipalListener implements ActionListener{
         } else if ("updateCliente".equals(e.getActionCommand())) {
             telaPrincipal.abrirAtualizaCliente();
         } else if ("concluirEmprestimo".equals(e.getActionCommand())) {
-            telaPrincipal.abrirAtualizaCliente();
+            telaPrincipal.abrirConcluirEmprestimo();
         }
         
     }

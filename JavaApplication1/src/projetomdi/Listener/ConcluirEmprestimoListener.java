@@ -23,10 +23,12 @@ public class ConcluirEmprestimoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ("fechar".equals(e.getActionCommand())) {
+        if ("sair".equals(e.getActionCommand())) {
             conclui.sair();
-        }  else if ("excluir".equals(e.getActionCommand())) {
-            conclui.excluir();
+        }  else if ("verEmprestimo".equals(e.getActionCommand())) {
+            conclui.verEmprestimo();
+        } else if ("concluir".equals(e.getActionCommand())) {
+            conclui.conclui();
         }
 
     }

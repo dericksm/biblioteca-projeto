@@ -74,7 +74,7 @@ public class EmprestimosDao {
         PreparedStatement ps = null;
         try {
             conn = Conexao.getConnection();
-            String sql = "delete from emprestimos where codigo = ?";
+            String sql = "delete from emprestimos where codigo =?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, emprestimo.getCodigo());
             ps.execute();
@@ -278,7 +278,7 @@ public class EmprestimosDao {
         return lista;
     }
 
-    public CadastroEmprestimo getCadastroCliente(Integer codigo) {
+    public CadastroEmprestimo getCadastroEmprestimo(Integer codigo) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -290,8 +290,9 @@ public class EmprestimosDao {
                     "data_emprestimo," +
                     "data_devolucao," +
                     "prazo," +
-                    "observacao"
-                    + "where codigo = ?";
+                    "observacao" +
+                    " from emprestimos"
+                    + " where codigo =?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();

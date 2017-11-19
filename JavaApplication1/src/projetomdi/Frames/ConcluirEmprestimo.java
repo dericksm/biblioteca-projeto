@@ -6,9 +6,11 @@
 package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import projetomdi.Classes.CadastroCliente;
 import projetomdi.Classes.CadastroEmprestimo;
 import projetomdi.Listener.ConcluirEmprestimoListener;
 import projetomdi.LogFile.LogFiles;
@@ -24,9 +26,15 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
     ConcluirEmprestimoListener listener = new ConcluirEmprestimoListener(this);
     EmprestimosDao emprestimoDao;
     private String currentUser;
-    
-    DefaultListModel model = new DefaultListModel();
 
+    public ConcluirEmprestimo(String user) {
+        this.emprestimoDao = new EmprestimosDao(currentUser);
+        initComponents();
+        setCurrentUser(user);
+        
+
+    }
+    
     public String getCurrentUser() {
         return currentUser;
     }
@@ -35,11 +43,18 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
         this.currentUser = currentUser;
     }
 
-    public ConcluirEmprestimo(String currentUser) {
-        this.emprestimoDao = new EmprestimosDao(currentUser);
-        initComponents();
-        listaEmprestimo.setModel(model);
-        atualizarLista();
+    public void conclui(){
+        emprestimoDao.delete(emprestimoDao.getCadastroEmprestimo(Integer.parseInt(emprestimoCodigo.getText())));
+    }
+    
+    public void verEmprestimo() {
+        List<CadastroEmprestimo> emprestimos = emprestimoDao.getAll();
+        String clienteMessage = "";
+        for (CadastroEmprestimo emprestimo : emprestimos) {
+            clienteMessage += "Código Empréstimo: " + emprestimo.getCodigo()+ " - Código Cliente: " + emprestimo.getCodigo_cliente() + "\n";
+        }
+        JOptionPane.showMessageDialog(this, clienteMessage, "Empréstimos em Aberto", JOptionPane.INFORMATION_MESSAGE);
+
     }
     
     public void sair() {
@@ -49,55 +64,33 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
         }
     }
     
-    
-    public void excluir(){
         
-        int index = listaEmprestimo.getSelectedIndex();        
-        CadastroEmprestimo emprestimoLivro = emprestimoDao.getCadastroCliente(listaEmprestimo.getSelectedIndex());
-        model.remove(index);
-        try {
-            emprestimoDao.delete(emprestimoLivro);
-        } catch (Exception e) {
-            LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " Concluiu um Emprestimo");
-        }
-        atualizarLista();
-                        
-        
-    }
-    
-    private void atualizarLista() {
-        try {
-            listaEmprestimo.setListData(new Vector(emprestimoDao.getAll()));
-        } catch (Exception e) {
-            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
-
-        }
-    }
     
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaEmprestimo = new javax.swing.JList<>();
-        btnFechar = new javax.swing.JButton();
-        btnExcluir = new javax.swing.JButton();
+        btnConcluir = new javax.swing.JButton();
+        cliente2 = new javax.swing.JLabel();
+        btnSair = new javax.swing.JButton();
+        verEmprestimo = new javax.swing.JButton();
+        emprestimoCodigo = new javax.swing.JTextField();
 
-        listaEmprestimo.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listaEmprestimo);
+        btnConcluir.addActionListener(listener);
+        btnConcluir.setActionCommand("concluir");
+        btnConcluir.setText("Concluir");
 
-        btnFechar.addActionListener(listener);
-        btnFechar.setActionCommand("fechar");
-        btnFechar.setText("Fechar");
+        cliente2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cliente2.setText("Código");
 
-        btnExcluir.addActionListener(listener);
-        btnExcluir.setActionCommand("excluir");
-        btnExcluir.setText("Concluir");
+        btnSair.addActionListener(listener);
+        btnSair.setActionCommand("sair");
+        btnSair.setText("Sair");
+
+        verEmprestimo.addActionListener(listener);
+        verEmprestimo.setActionCommand("verEmprestimo");
+        verEmprestimo.setText("Ver emprestimos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,25 +98,33 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cliente2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(emprestimoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(verEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(btnExcluir)
-                .addGap(18, 18, 18)
-                .addComponent(btnFechar)
-                .addContainerGap(173, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnFechar))
-                .addContainerGap())
+                    .addComponent(cliente2)
+                    .addComponent(verEmprestimo)
+                    .addComponent(emprestimoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSair)
+                    .addComponent(btnConcluir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -131,9 +132,10 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnFechar;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listaEmprestimo;
+    private javax.swing.JButton btnConcluir;
+    private javax.swing.JButton btnSair;
+    private javax.swing.JLabel cliente2;
+    private javax.swing.JTextField emprestimoCodigo;
+    private javax.swing.JButton verEmprestimo;
     // End of variables declaration//GEN-END:variables
 }
