@@ -125,7 +125,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuBar.add(updateCliente);
 
-        jMenu5.setText("Eprestimo");
+        jMenu5.setText("Emprestimo");
 
         menuEmprestimo.setMnemonic('a');
         menuEmprestimo.addActionListener(listener);
@@ -179,7 +179,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
     
     public void abrirAtualizaCliente(){
-        AtualizarCliente atualiza = new AtualizarCliente(currentUser);
+        AtualizarCliente atualiza = new AtualizarCliente(currentUser, this);
         atualiza.setVisible(true);
         add(atualiza);
         LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " acessou Atualiza Cliente");

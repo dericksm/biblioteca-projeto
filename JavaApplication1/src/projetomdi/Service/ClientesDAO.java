@@ -141,11 +141,11 @@ public class ClientesDAO {
             ps.setString(5, cadastroCliente.getReferencia());
             ps.setString(6, cadastroCliente.getCidade());
             ps.setInt(7, cadastroCliente.getCep());
-            ps.setInt(8, cadastroCliente.getTelefone());
-            ps.setInt(9, cadastroCliente.getCelular());
+            ps.setLong(8, cadastroCliente.getTelefone());
+            ps.setLong(9, cadastroCliente.getCelular());
             ps.setString(10, cadastroCliente.getEmail());
             ps.setInt(11, cadastroCliente.getRg());
-            ps.setInt(12, cadastroCliente.getCpf());
+            ps.setLong(12, cadastroCliente.getCpf());
             ps.setString(13, cadastroCliente.getData_nasc());
             ps.setString(14, cadastroCliente.getObservacao());
             System.out.println(this.getMaxCodigo());
@@ -211,11 +211,11 @@ public class ClientesDAO {
             ps.setString(5, cadastroCliente.getReferencia());
             ps.setString(6, cadastroCliente.getCidade());
             ps.setInt(7, cadastroCliente.getCep());
-            ps.setInt(8, cadastroCliente.getTelefone());
-            ps.setInt(9, cadastroCliente.getCelular());
+            ps.setLong(8, cadastroCliente.getTelefone());
+            ps.setLong(9, cadastroCliente.getCelular());
             ps.setString(10, cadastroCliente.getEmail());
             ps.setInt(11, cadastroCliente.getRg());
-            ps.setInt(12, cadastroCliente.getCpf());
+            ps.setLong(12, cadastroCliente.getCpf());
             ps.setString(13, cadastroCliente.getData_nasc());
             ps.setString(14, cadastroCliente.getObservacao());
             ps.execute();
@@ -285,11 +285,11 @@ public class ClientesDAO {
                 String referencia = rs.getString(6);
                 String cidade = rs.getString(7);
                 Integer cep = rs.getInt(8);
-                Integer telefone = rs.getInt(9);
-                Integer celular = rs.getInt(10);
+                Long telefone = rs.getLong(9);
+                Long celular = rs.getLong(10);
                 String email = rs.getString(11);
                 Integer rg = rs.getInt(12);
-                Integer cpf = rs.getInt(13);
+                Long cpf = rs.getLong(13);
                 String data_nasc = rs.getString(14);
                 String observacao = rs.getString(15);
 
@@ -356,8 +356,9 @@ public class ClientesDAO {
                     + "data_nasc,"
                     + "observacao"
                     + " from clientes"
-                    + "where codigo = ?";
+                    + " where codigo =?";
             ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -368,11 +369,11 @@ public class ClientesDAO {
                 String referencia = rs.getString(6);
                 String cidade = rs.getString(7);
                 Integer cep = rs.getInt(8);
-                Integer telefone = rs.getInt(9);
-                Integer celular = rs.getInt(10);
+                Long telefone = rs.getLong(9);
+                Long celular = rs.getLong(10);
                 String email = rs.getString(11);
                 Integer rg = rs.getInt(12);
-                Integer cpf = rs.getInt(13);
+                Long cpf = rs.getLong(13);
                 String data_nasc = rs.getString(14);
                 String observacao = rs.getString(15);
 

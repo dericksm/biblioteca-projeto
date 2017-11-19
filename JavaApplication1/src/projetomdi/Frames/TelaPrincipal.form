@@ -90,7 +90,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu5">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eprestimo"/>
+            <Property name="text" type="java.lang.String" value="Emprestimo"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuEmprestimo">

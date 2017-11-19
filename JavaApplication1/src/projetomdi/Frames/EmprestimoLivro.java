@@ -6,15 +6,18 @@
 package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
+import projetomdi.Classes.CadastroCliente;
 import projetomdi.Classes.CadastroEmprestimo;
+import projetomdi.Classes.CadastroLivro;
 import projetomdi.Exceptions.BibliotecaException;
-
 import projetomdi.Listener.EmprestimoLivroListener;
 import projetomdi.LogFile.LogFiles;
+import projetomdi.Service.ClientesDAO;
 import projetomdi.Service.EmprestimosDao;
+import projetomdi.Service.LivrosDao;
 
 /**
  *
@@ -24,8 +27,10 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
 
     EmprestimoLivroListener listener = new EmprestimoLivroListener(this);
     EmprestimosDao emprestimoDao;
+    ClientesDAO clienteDao;
+    LivrosDao livrosDao;
     private String currentUser;
-    
+
     public String getCurrentUser() {
         return currentUser;
     }
@@ -36,6 +41,8 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
 
     public EmprestimoLivro(String user) {
         this.emprestimoDao = new EmprestimosDao(currentUser);
+        this.clienteDao = new ClientesDAO(currentUser);
+        this.livrosDao = new LivrosDao(currentUser);
         initComponents();
         setCurrentUser(user);
 
@@ -50,16 +57,36 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             fdObservacoes.setText("");
         }
     }
+    
+    public void verCliente() {
+        List<CadastroCliente> clientes = clienteDao.getAll();
+        String clienteMessage = "";
+        for (CadastroCliente cliente1 : clientes) {
+            clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
+                    }
+        JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+    }
+    
+    public void verLivro() {
+        List<CadastroLivro> livros = livrosDao.getAll();
+        String livrosMessage = "";
+        for (CadastroLivro livro : livros) {
+            livrosMessage += livro.getCodigo()+ " - " + livro.getNome()+ "\n";
+                    }
+        JOptionPane.showMessageDialog(this, livrosMessage, "Livros Disponíveis", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+    }
 
     private CadastroEmprestimo getEmprestimo() {
         CadastroEmprestimo emprestimo = new CadastroEmprestimo();
 
-        //emprestimo.setCodigo_cliente(listaClientes.getSelectedIndex());
-        //emprestimo.setCodigo_livro(listaLivros.getSelectedValuesList());
         emprestimo.setData_emprestimo(fdEmprestimo.getText());
         emprestimo.setData_devolucao(fdDevolucao.getText());
         emprestimo.setObservacao(fdObservacoes.getText());
-        
+
         try {
             emprestimo.setPrazo(Integer.parseInt((String) menuPrazo.getSelectedItem()));
         } catch (NumberFormatException e) {
@@ -98,8 +125,6 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             throw new BibliotecaException("Campo Emprestimo Vazio");
 
         }
-        
-        
 
     }
 
@@ -134,10 +159,22 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         btnConcluir = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaClientes = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listaLivros = new javax.swing.JList<>();
+        codigoCliente = new javax.swing.JTextField();
+        try{  
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("##/##/####");  
+            fdEmprestimo = new javax.swing.JFormattedTextField(data);  
+        }  
+        catch (Exception e){  
+        }
+        codigoLivro = new javax.swing.JTextField();
+        try{  
+            javax.swing.text.MaskFormatter data= new javax.swing.text.MaskFormatter("##/##/####");  
+            fdEmprestimo = new javax.swing.JFormattedTextField(data);  
+        }  
+        catch (Exception e){  
+        }
+        verClientes = new javax.swing.JButton();
+        verLivros = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -182,19 +219,17 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         btnCancelar.setActionCommand("cancelar");
         btnCancelar.setText("Cancelar");
 
-        listaClientes.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(listaClientes);
+        codigoCliente.setText(" ");
 
-        listaLivros.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(listaLivros);
+        codigoLivro.setText(" ");
+
+        verClientes.addActionListener(listener);
+        verClientes.setActionCommand("verCliente");
+        verClientes.setText("Ver clientes");
+
+        verLivros.addActionListener(listener);
+        verLivros.setActionCommand("verLivro");
+        verLivros.setText("Ver livros");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -223,31 +258,39 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnConcluir))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cliente)
-                            .addComponent(livro))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane3)))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(devolucao)
                         .addGap(18, 18, 18)
                         .addComponent(fdDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(livro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(cliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(codigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(verClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(verLivros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cliente))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(livro))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cliente)
+                    .addComponent(codigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verClientes))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(livro)
+                    .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verLivros))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(data)
@@ -267,7 +310,7 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
                     .addComponent(btnConcluir)
                     .addComponent(btnLimpar)
                     .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -279,6 +322,8 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnConcluir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JLabel cliente;
+    private javax.swing.JTextField codigoCliente;
+    private javax.swing.JTextField codigoLivro;
     private javax.swing.JLabel data;
     private javax.swing.JLabel data1;
     private javax.swing.JLabel devolucao;
@@ -287,12 +332,10 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     private javax.swing.JTextField fdObservacoes;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JList<String> listaClientes;
-    private javax.swing.JList<String> listaLivros;
     private javax.swing.JLabel livro;
     private javax.swing.JComboBox<String> menuPrazo;
     private javax.swing.JLabel observacoes;
+    private javax.swing.JButton verClientes;
+    private javax.swing.JButton verLivros;
     // End of variables declaration//GEN-END:variables
 }

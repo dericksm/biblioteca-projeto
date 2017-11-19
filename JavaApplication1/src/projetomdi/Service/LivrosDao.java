@@ -125,7 +125,7 @@ public class LivrosDao {
                     + "quantidade,"
                     + "codigo"
                     + ") "
-                    + "values(?,?,?,?,?,?,?)";
+                    + "values(?,?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1, cadastroLivro.getNome());
             ps.setString(2, cadastroLivro.getAutor());
@@ -223,7 +223,7 @@ public class LivrosDao {
     }
 
     public List<CadastroLivro> getAll() {
-        List<CadastroLivro> lista = new ArrayList<CadastroLivro>();
+        List<CadastroLivro> lista = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
         try {

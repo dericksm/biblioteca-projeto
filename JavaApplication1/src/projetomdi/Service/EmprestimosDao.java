@@ -122,7 +122,7 @@ public class EmprestimosDao {
                     "prazo," +
                     "observacao"
                     + ") "
-                    + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    + "values(?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
             System.out.println(this.getMaxCodigo());
             ps.setInt(1, this.getMaxCodigo());

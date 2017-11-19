@@ -34,6 +34,10 @@ public class EmprestimoLivroListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ("cancelar".equals(e.getActionCommand())) {
             emprestimoLivro.cancelar();
+        } else if ("verLivro".equals(e.getActionCommand())) {
+            emprestimoLivro.verLivro();
+        } else if ("verCliente".equals(e.getActionCommand())) {
+            emprestimoLivro.verCliente();
         } else if ("limpar".equals(e.getActionCommand())) {
             emprestimoLivro.limpar();
         } else if ("concluir".equals(e.getActionCommand())) {

@@ -1,6 +1,8 @@
 
 package projetomdi.Classes;
 
+import java.math.BigInteger;
+
 public class CadastroCliente {
     
     int codigo;
@@ -12,11 +14,11 @@ public class CadastroCliente {
     String cidade;
     String uf;
     int cep;
-    int telefone;
-    int celular;
+    Long telefone;
+    Long celular;
     String email;
     int rg;
-    int cpf;
+    Long cpf;
     String data_nasc;
     String observacao;
     
@@ -111,19 +113,19 @@ public class CadastroCliente {
         this.cep = cep;
     }
 
-    public int getTelefone() {
+    public Long getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(Long telefone) {
         this.telefone = telefone;
     }
 
-    public int getCelular() {
+    public Long getCelular() {
         return celular;
     }
 
-    public void setCelular(int celular) {
+    public void setCelular(Long celular) {
         this.celular = celular;
     }
 
@@ -143,11 +145,11 @@ public class CadastroCliente {
         this.rg = rg;
     }
 
-    public int getCpf() {
+    public Long getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
 

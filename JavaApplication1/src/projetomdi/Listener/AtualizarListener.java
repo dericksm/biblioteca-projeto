@@ -27,8 +27,10 @@ public class AtualizarListener implements ActionListener{
         if ("sair".equals(e.getActionCommand())) {
             at.sair();
         } else if ("buscar".equals(e.getActionCommand())) {
-            at.Pesquisa();
-        } 
+            at.buscar();
+        } else if ("verCliente".equals(e.getActionCommand())) {
+            at.verCliente();
+        }
     }
     
 }

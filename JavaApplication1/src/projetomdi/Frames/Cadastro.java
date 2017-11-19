@@ -381,10 +381,10 @@ public class Cadastro extends javax.swing.JInternalFrame {
             try {
                 cliente.setNumero(Integer.parseInt(fdNumero.getText()));
                 cliente.setCep(Integer.parseInt(fdFixo.getText().replaceAll("[.-]", "")));
-                cliente.setCpf(Integer.parseInt(fdCPF.getText().replaceAll("[.-]", "")));
+                cliente.setCpf(Long.parseLong(fdCPF.getText().replaceAll("[.-]", "")));
                 cliente.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
-                cliente.setCelular(Integer.parseInt(fdCelular.getText().replaceAll("[()-]", "")));
-                cliente.setTelefone(Integer.parseInt(fdFixo.getText().replaceAll("[()-]", "")));
+                cliente.setCelular(Long.parseLong(fdCelular.getText().replaceAll("[()-]", "")));
+                cliente.setTelefone(Long.parseLong(fdFixo.getText().replaceAll("[()-]", "")));
                 
                 
             } catch (NumberFormatException e) {

@@ -6,6 +6,7 @@
 package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
+import java.util.List;
 import javax.swing.JOptionPane;
 import projetomdi.Classes.CadastroCliente;
 import projetomdi.Listener.AtualizarListener;
@@ -22,6 +23,7 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
     AtualizarListener listener = new AtualizarListener(this);
     ClientesDAO clientesDao;
     private String currentUser;
+    TelaPrincipal tela;
 
     public String getCurrentUser() {
         return currentUser;
@@ -31,29 +33,39 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
         this.currentUser = currentUser;
     }
 
-    public AtualizarCliente(String user) {
+    public AtualizarCliente(String user, TelaPrincipal tela) {
         this.clientesDao = new ClientesDAO(currentUser);
+        this.tela = tela;
         initComponents();
         setCurrentUser(user);
 
     }
 
-    public void Pesquisa() {
+    public void buscar() {
 
         if (clienteCodigo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos Vazios");
 
         } else {
-            CadastroCliente cliente;
-            try {
-                cliente = clientesDao.getCadastroCliente(Integer.parseInt(clienteCodigo.getText()));
-                TelaCadastro(cliente);
-            } catch (NumberFormatException e) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
-            }
-           
+            CadastroCliente cliente = clientesDao.getCadastroCliente(Integer.parseInt(clienteCodigo.getText().replaceAll("[^0-9]", "")));
+            Cadastro cdCliente = new Cadastro(currentUser, cliente);
+            cdCliente.setVisible(true);
+            tela.add(cdCliente);
+            this.dispose();
+
+            
 
         }
+
+    }
+
+    public void verCliente() {
+        List<CadastroCliente> clientes = clientesDao.getAll();
+        String clienteMessage = "";
+        for (CadastroCliente cliente1 : clientes) {
+            clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
+        }
+        JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -67,9 +79,9 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
     public void TelaCadastro(CadastroCliente cliente) {
         Cadastro cdCliente = new Cadastro(currentUser, cliente);
         cdCliente.setVisible(true);
-        add(cdCliente);
+        tela.add(cdCliente);
         LogFiles.setFileContentAsStackTrace(LOG_FILE, currentUser + " acessou Cadastro");
-        
+
     }
 
     /**
@@ -85,13 +97,14 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
         btnSair = new javax.swing.JButton();
         cliente2 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
-        clienteCodigo = new javax.swing.JFormattedTextField();
+        verClientes = new javax.swing.JButton();
+        clienteCodigo = new javax.swing.JTextField();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         btnSair.addActionListener(listener);
-        btnSair.setActionCommand("limpar");
+        btnSair.setActionCommand("sair");
         btnSair.setText("Sair");
 
         cliente2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -101,11 +114,9 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
         btnBuscar.setActionCommand("buscar");
         btnBuscar.setText("Buscar");
 
-        try {
-            clienteCodigo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        verClientes.addActionListener(listener);
+        verClientes.setActionCommand("verCliente");
+        verClientes.setText("Ver clientes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,28 +126,31 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 227, Short.MAX_VALUE)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(cliente2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(clienteCodigo)))
-                .addGap(18, 18, 18))
+                        .addComponent(clienteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(verClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cliente2)
+                    .addComponent(verClientes)
                     .addComponent(clienteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar)
                     .addComponent(btnSair))
-                .addGap(59, 59, 59))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,7 +161,8 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel cliente2;
-    private javax.swing.JFormattedTextField clienteCodigo;
+    private javax.swing.JTextField clienteCodigo;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JButton verClientes;
     // End of variables declaration//GEN-END:variables
 }
