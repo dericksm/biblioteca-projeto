@@ -18,7 +18,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
     CadastroCliente cliente = new CadastroCliente();
     CadastroListener listener = new CadastroListener(this);
     private String currentUser;
-    ClientesDAO clientesDao = new ClientesDAO();
+    ClientesDAO clientesDao = new ClientesDAO(currentUser);
 
     public String getCurrentUser() {
         return currentUser;

@@ -7,7 +7,6 @@ package projetomdi.Frames;
 
 import Modules.login.LoginView;
 import static config.config.LOG_FILE;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -15,7 +14,6 @@ import javax.swing.SwingUtilities;
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import projetomdi.Classes.CadastroCliente;
 import projetomdi.Listener.TelaPrincipalListener;
 import projetomdi.LogFile.LogFiles;
 

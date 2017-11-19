@@ -21,7 +21,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
 
     CadastroLivro novoLivro = new CadastroLivro();
     CadastroLivroListener listener = new CadastroLivroListener(this);
-    LivrosDao livrosDao = new LivrosDao();
+    LivrosDao livrosDao;
     private String currentUser;
 
     public String getCurrentUser() {
@@ -33,10 +33,9 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
     }
 
     public CadastroLivros(String user) {
+        this.livrosDao = new LivrosDao(currentUser);
         initComponents();
         setCurrentUser(user);
-        
-        
 
     }
 
@@ -61,7 +60,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             try {
                 novoLivro.setAno(Integer.parseInt(fdAno.getText()));
                 novoLivro.setQuantidade(Integer.parseInt(fdQuantidade.getText()));
-                novoLivro.setCodigo(Integer.parseInt(fdCodigo.getText()));
                 novoLivro.setNum_paginas(Integer.parseInt(fdPaginas.getText()));
             } catch (NumberFormatException e) {
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
@@ -73,7 +71,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             novoLivro.setNome(fdNome.getText());
             novoLivro.imprimir();
             livrosDao.insert(novoLivro);
-            
+
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Livro");
         }
 
@@ -84,7 +82,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         if (resposta == JOptionPane.YES_OPTION) {
             fdAno.setText("");
             fdAutor.setText("");
-            fdCodigo.setText("");
             fdEditora.setText("");
             fdGenero.setText("");
             fdNome.setText("");
@@ -103,11 +100,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         if (fdAutor.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Autor");
             throw new BibliotecaException("Campo Autor Vazio");
-
-        }
-        if (fdCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o campo Codigo");
-            throw new BibliotecaException("Campo Codigo Vazio");
 
         }
         if (fdEditora.getText().isEmpty()) {
@@ -141,7 +133,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        codigoLivro = new javax.swing.JLabel();
         fdNome = new javax.swing.JTextField();
         codigoLivro1 = new javax.swing.JLabel();
         autor = new javax.swing.JLabel();
@@ -157,12 +148,8 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         btnSalvarLivro = new javax.swing.JButton();
         btnLimparLivro = new javax.swing.JButton();
         btnSairLivro = new javax.swing.JButton();
-        fdCodigo = new javax.swing.JFormattedTextField();
         fdAno = new javax.swing.JFormattedTextField();
         fdPaginas = new javax.swing.JFormattedTextField();
-
-        codigoLivro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        codigoLivro.setText("Código Livro");
 
         codigoLivro1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLivro1.setText("Nome");
@@ -198,12 +185,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         btnSairLivro.setText("Sair");
 
         try {
-            fdCodigo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
             fdAno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
@@ -222,10 +203,6 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(codigoLivro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(fdCodigo))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(codigoLivro1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -266,11 +243,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codigoLivro)
-                    .addComponent(fdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoLivro1)
                     .addComponent(fdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -302,7 +275,7 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
                     .addComponent(btnSalvarLivro)
                     .addComponent(btnLimparLivro)
                     .addComponent(btnSairLivro))
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -316,12 +289,10 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLimparLivro;
     private javax.swing.JButton btnSairLivro;
     private javax.swing.JButton btnSalvarLivro;
-    private javax.swing.JLabel codigoLivro;
     private javax.swing.JLabel codigoLivro1;
     private javax.swing.JLabel editora;
     private javax.swing.JFormattedTextField fdAno;
     private javax.swing.JTextField fdAutor;
-    private javax.swing.JFormattedTextField fdCodigo;
     private javax.swing.JTextField fdEditora;
     private javax.swing.JTextField fdGenero;
     private javax.swing.JTextField fdNome;

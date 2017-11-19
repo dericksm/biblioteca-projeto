@@ -22,7 +22,7 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
 
    
     ConcluirEmprestimoListener listener = new ConcluirEmprestimoListener(this);
-    EmprestimosDao emprestimoDao = new EmprestimosDao();
+    EmprestimosDao emprestimoDao;
     private String currentUser;
     
     DefaultListModel model = new DefaultListModel();
@@ -36,6 +36,7 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
     }
 
     public ConcluirEmprestimo(String currentUser) {
+        this.emprestimoDao = new EmprestimosDao(currentUser);
         initComponents();
         listaEmprestimo.setModel(model);
         atualizarLista();

@@ -20,7 +20,7 @@ import projetomdi.Service.ClientesDAO;
 public class AtualizarCliente extends javax.swing.JInternalFrame {
 
     AtualizarListener listener = new AtualizarListener(this);
-    ClientesDAO clientesDao = new ClientesDAO();
+    ClientesDAO clientesDao;
     private String currentUser;
 
     public String getCurrentUser() {
@@ -32,6 +32,7 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
     }
 
     public AtualizarCliente(String user) {
+        this.clientesDao = new ClientesDAO(currentUser);
         initComponents();
         setCurrentUser(user);
 

@@ -7,6 +7,8 @@ package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import projetomdi.Classes.CadastroEmprestimo;
 import projetomdi.Exceptions.BibliotecaException;
 
@@ -21,9 +23,9 @@ import projetomdi.Service.EmprestimosDao;
 public class EmprestimoLivro extends javax.swing.JInternalFrame {
 
     EmprestimoLivroListener listener = new EmprestimoLivroListener(this);
-    EmprestimosDao emprestimoDao = new EmprestimosDao();
+    EmprestimosDao emprestimoDao;
     private String currentUser;
-
+    
     public String getCurrentUser() {
         return currentUser;
     }
@@ -33,6 +35,7 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     }
 
     public EmprestimoLivro(String user) {
+        this.emprestimoDao = new EmprestimosDao(currentUser);
         initComponents();
         setCurrentUser(user);
 
@@ -51,8 +54,8 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     private CadastroEmprestimo getEmprestimo() {
         CadastroEmprestimo emprestimo = new CadastroEmprestimo();
 
-        emprestimo.setCodigo_cliente(menuClientes.getSelectedItem().hashCode());
-        emprestimo.setCodigo_livro(menuLivro.getSelectedItem().hashCode());
+        //emprestimo.setCodigo_cliente(listaClientes.getSelectedIndex());
+        //emprestimo.setCodigo_livro(listaLivros.getSelectedValuesList());
         emprestimo.setData_emprestimo(fdEmprestimo.getText());
         emprestimo.setData_devolucao(fdDevolucao.getText());
         emprestimo.setObservacao(fdObservacoes.getText());
@@ -95,6 +98,8 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             throw new BibliotecaException("Campo Emprestimo Vazio");
 
         }
+        
+        
 
     }
 
@@ -102,10 +107,10 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         cliente = new javax.swing.JLabel();
-        menuClientes = new javax.swing.JComboBox<>();
         livro = new javax.swing.JLabel();
-        menuLivro = new javax.swing.JComboBox<>();
         data = new javax.swing.JLabel();
         fdEmprestimo = new javax.swing.JTextField();
         try{  
@@ -129,6 +134,17 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         btnConcluir = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listaClientes = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listaLivros = new javax.swing.JList<>();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
 
         cliente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cliente.setText("Cliente");
@@ -166,6 +182,20 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         btnCancelar.setActionCommand("cancelar");
         btnCancelar.setText("Cancelar");
 
+        listaClientes.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(listaClientes);
+
+        listaLivros.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(listaLivros);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,14 +203,6 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cliente)
-                        .addGap(18, 18, 18)
-                        .addComponent(menuClientes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(livro)
-                        .addGap(18, 18, 18)
-                        .addComponent(menuLivro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(data)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -189,11 +211,6 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
                         .addComponent(data1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(menuPrazo, 0, 193, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(devolucao)
-                        .addGap(18, 18, 18)
-                        .addComponent(fdDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(observacoes)
                         .addGap(18, 18, 18)
@@ -204,20 +221,33 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnLimpar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnConcluir)))
+                        .addComponent(btnConcluir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cliente)
+                            .addComponent(livro))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(devolucao)
+                        .addGap(18, 18, 18)
+                        .addComponent(fdDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cliente)
-                    .addComponent(menuClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(livro)
-                    .addComponent(menuLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cliente))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(livro))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(data)
@@ -237,7 +267,7 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
                     .addComponent(btnConcluir)
                     .addComponent(btnLimpar)
                     .addComponent(btnCancelar))
-                .addGap(0, 0, 0))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -255,9 +285,13 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
     private javax.swing.JTextField fdDevolucao;
     private javax.swing.JTextField fdEmprestimo;
     private javax.swing.JTextField fdObservacoes;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> listaClientes;
+    private javax.swing.JList<String> listaLivros;
     private javax.swing.JLabel livro;
-    private javax.swing.JComboBox<String> menuClientes;
-    private javax.swing.JComboBox<String> menuLivro;
     private javax.swing.JComboBox<String> menuPrazo;
     private javax.swing.JLabel observacoes;
     // End of variables declaration//GEN-END:variables

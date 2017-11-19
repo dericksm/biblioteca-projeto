@@ -23,11 +23,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="codigoLivro" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="fdCodigo" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <Component id="codigoLivro1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="fdNome" max="32767" attributes="0"/>
@@ -77,12 +72,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="codigoLivro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fdCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="codigoLivro1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fdNome" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,20 +112,12 @@
                   <Component id="btnLimparLivro" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSairLivro" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="codigoLivro">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="C&#xf3;digo Livro"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="fdNome">
     </Component>
     <Component class="javax.swing.JLabel" name="codigoLivro1">
@@ -225,13 +207,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="btnSairLivro.addActionListener(listener);&#xa;btnSairLivro.setActionCommand(&quot;sair&quot;);"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="fdCodigo">
-      <Properties>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-          <Format format="######" subtype="-1" type="5"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fdAno">
       <Properties>

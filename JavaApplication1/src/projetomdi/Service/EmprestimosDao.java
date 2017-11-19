@@ -5,6 +5,7 @@
  */
 package projetomdi.Service;
 
+import static config.config.LOG_FILE;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import projetomdi.Classes.CadastroEmprestimo;
+import projetomdi.LogFile.LogFiles;
 
 /**
  *
@@ -19,6 +21,19 @@ import projetomdi.Classes.CadastroEmprestimo;
  */
 public class EmprestimosDao {
     
+     String currentUser;
+
+    public EmprestimosDao(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
     
     private int getMaxCodigo() {
         Connection conn = null;
@@ -34,20 +49,20 @@ public class EmprestimosDao {
                 return codigo;
             }
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         } finally {
             if (ps != null) {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
@@ -66,13 +81,13 @@ public class EmprestimosDao {
 
             conn.commit();
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
 
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         } finally {
@@ -80,14 +95,14 @@ public class EmprestimosDao {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
@@ -122,13 +137,13 @@ public class EmprestimosDao {
             conn.commit();
 
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
 
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         } finally {
@@ -136,14 +151,14 @@ public class EmprestimosDao {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
@@ -175,13 +190,13 @@ public class EmprestimosDao {
 
             conn.commit();
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
 
             if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
 
@@ -190,14 +205,14 @@ public class EmprestimosDao {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
@@ -243,20 +258,20 @@ public class EmprestimosDao {
                 lista.add(emprestimo);
             }
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         } finally {
             if (ps != null) {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
@@ -301,20 +316,20 @@ public class EmprestimosDao {
                 return emprestimo;
             }
         } catch (SQLException e) {
-            System.out.println("ERRO: " + e.getMessage());
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         } finally {
             if (ps != null) {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("ERRO: " + ex.getMessage());
+                    LogFiles.setFileContentAsStackTrace(LOG_FILE, ex, currentUser);
                 }
             }
         }
