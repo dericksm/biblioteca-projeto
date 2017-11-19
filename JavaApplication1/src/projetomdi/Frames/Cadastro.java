@@ -19,6 +19,15 @@ public class Cadastro extends javax.swing.JInternalFrame {
     CadastroListener listener = new CadastroListener(this);
     private String currentUser;
     ClientesDAO clientesDao = new ClientesDAO(currentUser);
+    int codigoCliente;
+
+    public int getCodigoCliente() {
+        return codigoCliente;
+    }
+
+    public void setCodigoCliente(int codigoCliente) {
+        this.codigoCliente = codigoCliente;
+    }
 
     public String getCurrentUser() {
         return currentUser;
@@ -40,7 +49,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
         initComponents();
         btnSalvar.setEnabled(false);
         setCurrentUser(user);
-        setCampos();
+        setCampos(cliente);
+        setCodigoCliente(cliente.getCodigo());
 
     }
 
@@ -348,7 +358,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setCampos(){
+    public void setCampos(CadastroCliente cliente){
         
         fdNome.setText(cliente.getNome());
         fdEndereco.setText(cliente.getEndereco());
@@ -368,8 +378,36 @@ public class Cadastro extends javax.swing.JInternalFrame {
         
     }
     
-    public void atualizar() {
-        
+    public void atualizar() throws BibliotecaException {
+        CadastroCliente clienteAtualizado = new CadastroCliente();
+        ValidacaoCadastro();
+            
+            try {
+                clienteAtualizado.setNumero(Integer.parseInt(fdNumero.getText()));
+                clienteAtualizado.setCep(Integer.parseInt(fdCEP.getText().replaceAll("[.-]", "")));
+                clienteAtualizado.setCpf(Long.parseLong(fdCPF.getText().replaceAll("[.-]", "")));
+                clienteAtualizado.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
+                clienteAtualizado.setCelular(Long.parseLong(fdCelular.getText().replaceAll("[()-]", "")));
+                clienteAtualizado.setTelefone(Long.parseLong(fdFixo.getText().replaceAll("[()-]", "")));
+                
+                
+            } catch (NumberFormatException e) {
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+            }
+
+            clienteAtualizado.setNome(fdNome.getText());
+            clienteAtualizado.setEndereco(fdEndereco.getText());
+            clienteAtualizado.setBairro(fdBairro.getText());
+            clienteAtualizado.setReferencia(fdReferencia.getText());
+            clienteAtualizado.setEmail(fdEmail.getText());
+            clienteAtualizado.setCidade(fdCidade.getText());
+            clienteAtualizado.setObservacao(fdObservacoes.getText());
+            clienteAtualizado.setUf(UF.getText());
+            clienteAtualizado.setData_nasc(fdNascimento.getText());
+            
+            clienteAtualizado.setCodigo(getCodigoCliente());
+            clienteAtualizado.imprimir();
+            clientesDao.update(clienteAtualizado);
     }
     
     public void salvar() throws BibliotecaException {
