@@ -5,15 +5,10 @@
  */
 package projetomdi.Listener;
 
-import static config.config.LOG_FILE;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import projetomdi.Exceptions.BibliotecaException;
 import projetomdi.Frames.Cadastro;
-import projetomdi.LogFile.LogFiles;
 
 
 
@@ -39,7 +34,9 @@ public class CadastroListener implements ActionListener{
             } catch (BibliotecaException ex) {
                 System.out.println(ex.getMessage());
             }
-        }
+        } else if("atualizar".equals(e.getActionCommand())){
+            cad.atualizar();
+        } 
     }
     
     

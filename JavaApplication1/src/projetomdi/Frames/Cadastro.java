@@ -33,6 +33,14 @@ public class Cadastro extends javax.swing.JInternalFrame {
     public Cadastro(String user) {
         initComponents();
         setCurrentUser(user);
+        btnAtualizar.setVisible(false);
+
+    }
+    public Cadastro(String user, CadastroCliente cliente) {
+        initComponents();
+        btnSalvar.setEnabled(false);
+        setCurrentUser(user);
+        setCampos();
 
     }
 
@@ -82,6 +90,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
         fdCelular = new javax.swing.JFormattedTextField();
         fdCPF = new javax.swing.JFormattedTextField();
         fdRG = new javax.swing.JFormattedTextField();
+        btnAtualizar = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -115,7 +124,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
         UF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         UF.setText("UF");
 
-        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SC", "PR", "SP" }));
+        boxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SC" }));
 
         fixo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         fixo.setText("Telefone Fixo");
@@ -197,6 +206,10 @@ public class Cadastro extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+
+        btnAtualizar.addActionListener(listener);
+        btnAtualizar.setActionCommand("atualizar");
+        btnAtualizar.setText("Atualizar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -284,6 +297,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAtualizar)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalvar)
                         .addGap(18, 18, 18)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,13 +362,39 @@ public class Cadastro extends javax.swing.JInternalFrame {
                     .addComponent(btnSalvar)
                     .addComponent(btnLimpar)
                     .addComponent(btnCancelar)
-                    .addComponent(btnSair))
+                    .addComponent(btnSair)
+                    .addComponent(btnAtualizar))
                 .addContainerGap(157, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setCampos(){
+        
+        fdCodigo.setText(String.valueOf(cliente.getCodigo()));
+        fdNome.setText(cliente.getNome());
+        fdEndereco.setText(cliente.getEndereco());
+        fdNumero.setText(String.valueOf(cliente.getNumero()));
+        fdBairro.setText(cliente.getBairro());
+        fdReferencia.setText(cliente.getReferencia());
+        fdCidade.setText(cliente.getCidade());
+        fdCEP.setText(String.valueOf(cliente.getCodigo()));
+        fdCelular.setText(String.valueOf(cliente.getCelular()));
+        fdFixo.setText(String.valueOf(cliente.getTelefone()));
+        fdEmail.setText(cliente.getEmail());
+        fdRG.setText(String.valueOf(cliente.getRg()));
+        fdCPF.setText(String.valueOf(cliente.getCpf()));
+        fdNascimento.setText(cliente.getData_nasc());
+        fdObservacoes.setText(cliente.getObservacao());
+        
+        
+    }
+    
+    public void atualizar() {
+        
+    }
+    
     public void salvar() throws BibliotecaException {
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
@@ -497,6 +538,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
     private javax.swing.JLabel UF;
     private javax.swing.JLabel bairro;
     private javax.swing.JComboBox<String> boxEstado;
+    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSair;

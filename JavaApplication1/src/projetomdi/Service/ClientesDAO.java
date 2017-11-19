@@ -20,7 +20,6 @@ import projetomdi.Classes.CadastroCliente;
 
 //As exceções devem ser propagadas para a camada de apresentação, ou seja, deve ser utilizado throws em cada um dos métodos
 public class ClientesDAO {
-
     public void delete(CadastroCliente cadastroCliente) {
         Connection conn = null;
         PreparedStatement ps = null;

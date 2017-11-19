@@ -29,6 +29,10 @@ public class TelaPrincipalListener implements ActionListener{
             telaPrincipal.abrirEmprestimoLivro();
         } else if ("menuCliente".equals(e.getActionCommand())) {
             telaPrincipal.abrirCadastroCliente();
+        } else if ("updateCliente".equals(e.getActionCommand())) {
+            telaPrincipal.abrirAtualizaCliente();
+        } else if ("concluirEmprestimo".equals(e.getActionCommand())) {
+            telaPrincipal.abrirAtualizaCliente();
         }
         
     }
