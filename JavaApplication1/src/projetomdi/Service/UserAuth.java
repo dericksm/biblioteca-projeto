@@ -31,7 +31,7 @@ public class UserAuth {
         this.currentUser = currentUser;
     }
     
-    public static boolean autenticaUsuario(String usuario,String senha) {
+    public boolean autenticaUsuario(String usuario,String senha) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
