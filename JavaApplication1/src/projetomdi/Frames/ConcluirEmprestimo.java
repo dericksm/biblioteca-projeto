@@ -7,10 +7,7 @@ package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
 import java.util.List;
-import java.util.Vector;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import projetomdi.Classes.CadastroCliente;
 import projetomdi.Classes.CadastroEmprestimo;
 import projetomdi.Listener.ConcluirEmprestimoListener;
 import projetomdi.LogFile.LogFiles;
@@ -22,7 +19,6 @@ import projetomdi.Service.EmprestimosDao;
  */
 public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
 
-   
     ConcluirEmprestimoListener listener = new ConcluirEmprestimoListener(this);
     EmprestimosDao emprestimoDao;
     private String currentUser;
@@ -31,10 +27,9 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
         this.emprestimoDao = new EmprestimosDao(currentUser);
         initComponents();
         setCurrentUser(user);
-        
 
     }
-    
+
     public String getCurrentUser() {
         return currentUser;
     }
@@ -43,30 +38,37 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
         this.currentUser = currentUser;
     }
 
-    public void conclui(){
-        emprestimoDao.delete(emprestimoDao.getCadastroEmprestimo(Integer.parseInt(emprestimoCodigo.getText())));
-    }
-    
-    public void verEmprestimo() {
-        List<CadastroEmprestimo> emprestimos = emprestimoDao.getAll();
-        String clienteMessage = "";
-        for (CadastroEmprestimo emprestimo : emprestimos) {
-            clienteMessage += "Código Empréstimo: " + emprestimo.getCodigo()+ " - Código Cliente: " + emprestimo.getCodigo_cliente() + "\n";
+    public void conclui() {
+        try {
+            emprestimoDao.delete(emprestimoDao.getCadastroEmprestimo(Integer.parseInt(emprestimoCodigo.getText())));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao deletar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         }
-        JOptionPane.showMessageDialog(this, clienteMessage, "Empréstimos em Aberto", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void verEmprestimo() {
+        try {
+            List<CadastroEmprestimo> emprestimos = emprestimoDao.getAll();
+            String clienteMessage = "";
+            for (CadastroEmprestimo emprestimo : emprestimos) {
+                clienteMessage += "Código Empréstimo: " + emprestimo.getCodigo() + " - Código Cliente: " + emprestimo.getCodigo_cliente() + "\n";
+            }
+            JOptionPane.showMessageDialog(this, clienteMessage, "Empréstimos em Aberto", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
 
     }
-    
+
     public void sair() {
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Sair?", "Confirmação Sair", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             dispose();
         }
     }
-    
-        
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

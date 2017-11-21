@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import projetomdi.Classes.CadastroCliente;
 import projetomdi.Listener.AtualizarListener;
-import projetomdi.Listener.CadastroListener;
 import projetomdi.LogFile.LogFiles;
 import projetomdi.Service.ClientesDAO;
 
@@ -47,25 +46,33 @@ public class AtualizarCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Campos Vazios");
 
         } else {
-            CadastroCliente cliente = clientesDao.getCadastroCliente(Integer.parseInt(clienteCodigo.getText().replaceAll("[^0-9]", "")));
-            Cadastro cdCliente = new Cadastro(currentUser, cliente);
-            cdCliente.setVisible(true);
-            tela.add(cdCliente);
-            this.dispose();
-
-            
+            try {
+                CadastroCliente cliente = clientesDao.getCadastroCliente(Integer.parseInt(clienteCodigo.getText().replaceAll("[^0-9]", "")));
+                Cadastro cdCliente = new Cadastro(currentUser, cliente);
+                cdCliente.setVisible(true);
+                tela.add(cdCliente);
+                this.dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao buscar, por favor, tente novamente");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+            }
 
         }
 
     }
 
     public void verCliente() {
-        List<CadastroCliente> clientes = clientesDao.getAll();
-        String clienteMessage = "";
-        for (CadastroCliente cliente1 : clientes) {
-            clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
+        try {
+            List<CadastroCliente> clientes = clientesDao.getAll();
+            String clienteMessage = "";
+            for (CadastroCliente cliente1 : clientes) {
+                clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
+            }
+            JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         }
-        JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
 
     }
 

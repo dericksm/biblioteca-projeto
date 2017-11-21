@@ -17,7 +17,7 @@ import projetomdi.LogFile.LogFiles;
  * @author Simples-Dental
  */
 public class UserAuth {
-    String currentUser;
+    static String currentUser;
 
     public UserAuth(String currentUser) {
         this.currentUser = currentUser;
@@ -31,7 +31,7 @@ public class UserAuth {
         this.currentUser = currentUser;
     }
     
-    public boolean autenticaUsuario(String usuario,String senha) {
+    public static boolean autenticaUsuario(String usuario,String senha) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {

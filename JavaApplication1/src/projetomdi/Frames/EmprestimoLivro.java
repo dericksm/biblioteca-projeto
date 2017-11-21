@@ -6,7 +6,6 @@
 package projetomdi.Frames;
 
 import static config.config.LOG_FILE;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import projetomdi.Classes.CadastroCliente;
@@ -57,27 +56,35 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             fdObservacoes.setText("");
         }
     }
-    
+
     public void verCliente() {
-        List<CadastroCliente> clientes = clienteDao.getAll();
-        String clienteMessage = "";
-        for (CadastroCliente cliente1 : clientes) {
-            clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
-                    }
-        JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
-        
-        
+        try {
+            List<CadastroCliente> clientes = clienteDao.getAll();
+            String clienteMessage = "";
+            for (CadastroCliente cliente1 : clientes) {
+                clienteMessage += cliente1.getCodigo() + " - " + cliente1.getNome() + "\n";
+            }
+            JOptionPane.showMessageDialog(this, clienteMessage, "Clientes Disponíveis", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
+
     }
-    
+
     public void verLivro() {
-        List<CadastroLivro> livros = livrosDao.getAll();
-        String livrosMessage = "";
-        for (CadastroLivro livro : livros) {
-            livrosMessage += livro.getCodigo()+ " - " + livro.getNome()+ "\n";
-                    }
-        JOptionPane.showMessageDialog(this, livrosMessage, "Livros Disponíveis", JOptionPane.INFORMATION_MESSAGE);
-        
-        
+        try {
+            List<CadastroLivro> livros = livrosDao.getAll();
+            String livrosMessage = "";
+            for (CadastroLivro livro : livros) {
+                livrosMessage += livro.getCodigo() + " - " + livro.getNome() + "\n";
+            }
+            JOptionPane.showMessageDialog(this, livrosMessage, "Livros Disponíveis", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
+
     }
 
     private CadastroEmprestimo getEmprestimo() {
@@ -102,7 +109,12 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
         if (resposta == JOptionPane.YES_OPTION) {
             ValidaVazio();
             CadastroEmprestimo emprestimo = getEmprestimo();
-            emprestimoDao.insert(emprestimo);
+            try {
+                emprestimoDao.insert(emprestimo);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir, por favor, tente novamente");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+            }
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Emprestimo");
         }
     }

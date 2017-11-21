@@ -31,7 +31,13 @@ public class LoginController {
     
 
     public void login(String account, String password) throws BibliotecaException {
-        if (!UserAuth.autenticaUsuario(account, password))
+        try {
+            if (!UserAuth.autenticaUsuario(account, password))
+                throw new BibliotecaException(ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível fazer login, verifique se o banco está ligado");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário: " + account + " tentou acessar o sistema sem sucesso");
             throw new BibliotecaException(ERROR_MESSAGE);
+        }
     }  
 }
