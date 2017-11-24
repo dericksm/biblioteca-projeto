@@ -7,4 +7,5 @@ CREATE USER SA PASSWORD ""
 GRANT DBA TO SA
 SET WRITE_DELAY 10
 SET SCHEMA PUBLIC
+INSERT INTO USERS VALUES(1,'iury','iury')
 INSERT INTO CLIENTES VALUES(1,'iury o merda foi cagar','rua santa vista',6666,'jardim fulano','mercado fulero','santos',88888888,3434343434,99999999999,'iury@email.com',1222333,11122233300,'19/10/1920','iury chato')

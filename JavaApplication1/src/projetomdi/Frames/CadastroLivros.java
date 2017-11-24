@@ -70,7 +70,14 @@ public class CadastroLivros extends javax.swing.JInternalFrame {
             novoLivro.setGenero(fdGenero.getText());
             novoLivro.setNome(fdNome.getText());
             novoLivro.imprimir();
-            livrosDao.insert(novoLivro);
+
+            try {
+                livrosDao.insert(novoLivro);
+                JOptionPane.showMessageDialog(this, "Livro cadastrado");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar, por favor, tente novamente");
+                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+            }
 
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Livro");
         }

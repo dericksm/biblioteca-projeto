@@ -41,10 +41,12 @@ public class ConcluirEmprestimo extends javax.swing.JInternalFrame {
     public void conclui() {
         try {
             emprestimoDao.delete(emprestimoDao.getCadastroEmprestimo(Integer.parseInt(emprestimoCodigo.getText())));
+            JOptionPane.showMessageDialog(this, "Empréstimo concluido");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao deletar, por favor, tente novamente");
             LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
         }
+        LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " concluiu um Emprestimo");
     }
 
     public void verEmprestimo() {

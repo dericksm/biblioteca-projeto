@@ -111,8 +111,9 @@ public class EmprestimoLivro extends javax.swing.JInternalFrame {
             CadastroEmprestimo emprestimo = getEmprestimo();
             try {
                 emprestimoDao.insert(emprestimo);
+                JOptionPane.showMessageDialog(this, "Empréstimo cadastrado");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Erro ao inserir, por favor, tente novamente");
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar, por favor, tente novamente");
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
             }
             LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " cadastrou um Emprestimo");

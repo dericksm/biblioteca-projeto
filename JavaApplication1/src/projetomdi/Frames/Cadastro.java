@@ -36,8 +36,6 @@ public class Cadastro extends javax.swing.JInternalFrame {
     public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
-    
-    
 
     public Cadastro(String user) {
         initComponents();
@@ -45,6 +43,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
         btnAtualizar.setVisible(false);
 
     }
+
     public Cadastro(String user, CadastroCliente cliente) {
         initComponents();
         btnSalvar.setEnabled(false);
@@ -358,8 +357,8 @@ public class Cadastro extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setCampos(CadastroCliente cliente){
-        
+    public void setCampos(CadastroCliente cliente) {
+
         fdNome.setText(cliente.getNome());
         fdEndereco.setText(cliente.getEndereco());
         fdNumero.setText(String.valueOf(cliente.getNumero()));
@@ -374,42 +373,47 @@ public class Cadastro extends javax.swing.JInternalFrame {
         fdCPF.setText(String.valueOf(cliente.getCpf()));
         fdNascimento.setText(cliente.getData_nasc());
         fdObservacoes.setText(cliente.getObservacao());
-        
-        
+
     }
-    
+
     public void atualizar() throws BibliotecaException {
         CadastroCliente clienteAtualizado = new CadastroCliente();
         ValidacaoCadastro();
-            
-            try {
-                clienteAtualizado.setNumero(Integer.parseInt(fdNumero.getText()));
-                clienteAtualizado.setCep(Integer.parseInt(fdCEP.getText().replaceAll("[.-]", "")));
-                clienteAtualizado.setCpf(Long.parseLong(fdCPF.getText().replaceAll("[.-]", "")));
-                clienteAtualizado.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
-                clienteAtualizado.setCelular(Long.parseLong(fdCelular.getText().replaceAll("[()-]", "")));
-                clienteAtualizado.setTelefone(Long.parseLong(fdFixo.getText().replaceAll("[()-]", "")));
-                
-                
-            } catch (NumberFormatException e) {
-                LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
-            }
 
-            clienteAtualizado.setNome(fdNome.getText());
-            clienteAtualizado.setEndereco(fdEndereco.getText());
-            clienteAtualizado.setBairro(fdBairro.getText());
-            clienteAtualizado.setReferencia(fdReferencia.getText());
-            clienteAtualizado.setEmail(fdEmail.getText());
-            clienteAtualizado.setCidade(fdCidade.getText());
-            clienteAtualizado.setObservacao(fdObservacoes.getText());
-            clienteAtualizado.setUf(UF.getText());
-            clienteAtualizado.setData_nasc(fdNascimento.getText());
-            
-            clienteAtualizado.setCodigo(getCodigoCliente());
-            clienteAtualizado.imprimir();
+        try {
+            clienteAtualizado.setNumero(Integer.parseInt(fdNumero.getText()));
+            clienteAtualizado.setCep(Integer.parseInt(fdCEP.getText().replaceAll("[.-]", "")));
+            clienteAtualizado.setCpf(Long.parseLong(fdCPF.getText().replaceAll("[.-]", "")));
+            clienteAtualizado.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
+            clienteAtualizado.setCelular(Long.parseLong(fdCelular.getText().replaceAll("[()-]", "")));
+            clienteAtualizado.setTelefone(Long.parseLong(fdFixo.getText().replaceAll("[()-]", "")));
+
+        } catch (NumberFormatException e) {
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
+
+        clienteAtualizado.setNome(fdNome.getText());
+        clienteAtualizado.setEndereco(fdEndereco.getText());
+        clienteAtualizado.setBairro(fdBairro.getText());
+        clienteAtualizado.setReferencia(fdReferencia.getText());
+        clienteAtualizado.setEmail(fdEmail.getText());
+        clienteAtualizado.setCidade(fdCidade.getText());
+        clienteAtualizado.setObservacao(fdObservacoes.getText());
+        clienteAtualizado.setUf(UF.getText());
+        clienteAtualizado.setData_nasc(fdNascimento.getText());
+
+        clienteAtualizado.setCodigo(getCodigoCliente());
+        clienteAtualizado.imprimir();
+        try {
             clientesDao.update(clienteAtualizado);
+            JOptionPane.showMessageDialog(this, "Usuário atualizado");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar, por favor, tente novamente");
+            LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
+        }
+        LogFiles.setFileContentAsStackTrace(LOG_FILE, "Usuário " + currentUser + " atualizou um Usuario");
     }
-    
+
     public void salvar() throws BibliotecaException {
         int resposta = JOptionPane.showConfirmDialog(null, "Realmente deseja Salvar?", "Confirmação Salvar", JOptionPane.YES_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
@@ -418,13 +422,12 @@ public class Cadastro extends javax.swing.JInternalFrame {
 
             try {
                 cliente.setNumero(Integer.parseInt(fdNumero.getText()));
-                cliente.setCep(Integer.parseInt(fdFixo.getText().replaceAll("[.-]", "")));
+                cliente.setCep(Integer.parseInt(fdCEP.getText().replaceAll("[.-]", "")));
                 cliente.setCpf(Long.parseLong(fdCPF.getText().replaceAll("[.-]", "")));
                 cliente.setRg(Integer.parseInt(fdRG.getText().replaceAll("[.]", "")));
                 cliente.setCelular(Long.parseLong(fdCelular.getText().replaceAll("[()-]", "")));
                 cliente.setTelefone(Long.parseLong(fdFixo.getText().replaceAll("[()-]", "")));
-                
-                
+
             } catch (NumberFormatException e) {
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
             }
@@ -441,6 +444,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
             cliente.imprimir();
             try {
                 clientesDao.insert(cliente);
+                JOptionPane.showMessageDialog(this, "Usuário cadastrado");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao inserir, por favor, tente novamente");
                 LogFiles.setFileContentAsStackTrace(LOG_FILE, e, currentUser);
@@ -464,7 +468,7 @@ public class Cadastro extends javax.swing.JInternalFrame {
             fdRG.setText("");
             fdCPF.setText("");
             fdObservacoes.setText("");
-            
+
         }
     }
 
