@@ -36,10 +36,10 @@ public class UserAuth {
         PreparedStatement ps = null;
         try {
             conn = Conexao.getConnection();
-            String sql = "SELECT usuario, senha FROM clientes where usuario = ? and senha = ?";
+            String sql = "SELECT usuario, senha FROM users where usuario = ? and senha = ?";
             ps = conn.prepareStatement(sql);
-            ps.setString(0, usuario);
-            ps.setString(1, senha);
+            ps.setString(1, usuario);
+            ps.setString(2, senha);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return true;

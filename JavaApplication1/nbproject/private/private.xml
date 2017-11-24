@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/CLIENTE/Documents/NetBeansProjects/derick/biblioteca-projeto/JavaApplication1/src/projetomdi/Service/EmprestimosDao.java</file>
-            <file>file:/C:/Users/CLIENTE/Documents/NetBeansProjects/derick/biblioteca-projeto/JavaApplication1/src/projetomdi/Service/ClientesDAO.java</file>
-            <file>file:/C:/Users/CLIENTE/Documents/NetBeansProjects/derick/biblioteca-projeto/JavaApplication1/src/projetomdi/Frames/ConcluirEmprestimo.java</file>
-            <file>file:/C:/Users/CLIENTE/Documents/NetBeansProjects/derick/biblioteca-projeto/JavaApplication1/src/projetomdi/Classes/CadastroEmprestimo.java</file>
+            <file>file:/C:/Users/comp8/Documents/biblioteca-projeto/JavaApplication1/src/projetomdi/Service/UserAuth.java</file>
+            <file>file:/C:/Users/comp8/Documents/biblioteca-projeto/JavaApplication1/src/Modules/login/LoginController.java</file>
+            <file>file:/C:/Users/comp8/Documents/biblioteca-projeto/JavaApplication1/src/projetomdi/Service/LivrosDao.java</file>
         </group>
     </open-files>
 </project-private>
